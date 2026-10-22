@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre | EcoDenúncia</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f4f8f4;
+            color: #26352b;
+            line-height: 1.6;
+        }
+
+        header {
+            background: #174d32;
+            color: white;
+            padding: 18px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        nav a:hover {
+            color: #b8edc8;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #174d32, #2e8050);
+            color: white;
+            text-align: center;
+            padding: 75px 20px;
+        }
+
+        .hero h1 {
+            font-size: 38px;
+            margin-bottom: 18px;
+        }
+
+        .hero p {
+            max-width: 750px;
+            margin: auto;
+            font-size: 17px;
+        }
+
+        main {
+            max-width: 1100px;
+            margin: auto;
+            padding: 45px 20px;
+        }
+
+        section {
+            margin-bottom: 45px;
+        }
+
+        h2 {
+            color: #174d32;
+            font-size: 27px;
+            margin-bottom: 18px;
+        }
+
+        p {
+            margin-bottom: 14px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.07);
+            border-top: 4px solid #2e8050;
+        }
+
+        .card h3 {
+            color: #174d32;
+            margin-bottom: 12px;
+        }
+
+        .icon {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .highlight {
+            background: #e3f1e6;
+            padding: 30px;
+            border-radius: 12px;
+            border-left: 5px solid #2e8050;
+        }
+
+        .steps {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .steps li {
+            background: white;
+            padding: 18px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .steps strong {
+            color: #174d32;
+        }
+
+        .button {
+            display: inline-block;
+            background: #1d7043;
+            color: white;
+            padding: 13px 24px;
+            border-radius: 7px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 12px;
+        }
+
+        .button:hover {
+            background: #145330;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        footer {
+            background: #123b27;
+            color: white;
+            text-align: center;
+            padding: 25px 15px;
+            font-size: 14px;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 18px 5%;
+            }
+
+            nav {
+                gap: 12px;
+            }
+
+            .hero {
+                padding: 55px 20px;
+            }
+
+            .hero h1 {
+                font-size: 30px;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">🌱 EcoDenúncia</div>
+
+        <nav>
+            <a href="index.html">Início</a>
+            <a href="sobre.html">Sobre</a>
+            <a href="nova_denuncia.html">Denúncias</a>
+            <a href="informacoes.html">Informações</a>
+            <a href="mapa.html">Mapa</a>
+            <a href="minhas_denuncias.html">Minhas denúncias</a>
+            <a href="perfil.html">Meu perfil</a>
+        </nav>
+    </header>
+
+    <div class="hero">
+        <h1>Sobre o EcoDenúncia</h1>
+
+        <p>
+            Uma plataforma voltada à conscientização ambiental e à participação
+            dos cidadãos na identificação e no registro de problemas ambientais.
+        </p>
+    </div>
+
+    <main>
+
+        <section>
+            <h2>Quem somos?</h2>
+
+            <p>
+                O EcoDenúncia é um projeto que busca aproximar a população das
+                questões ambientais por meio da tecnologia. A plataforma permite
+                registrar ocorrências, compartilhar informações e acompanhar
+                os registros apresentados no sistema.
+            </p>
+
+            <p>
+                A proposta é facilitar o acesso à informação ambiental e incentivar
+                a participação dos cidadãos na preservação do meio ambiente.
+            </p>
+        </section>
+
+        <section>
+            <h2>Nosso objetivo</h2>
+
+            <div class="highlight">
+                <p>
+                    Nosso principal objetivo é oferecer um ambiente digital simples
+                    e acessível para o registro de ocorrências ambientais, contribuindo
+                    para a conscientização da população e para a divulgação de
+                    informações sobre problemas que afetam a natureza.
+                </p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Quais problemas ambientais podem ser registrados?</h2>
+
+            <div class="cards">
+
+                <div class="card">
+                    <div class="icon">🌫️</div>
+                    <h3>Poluição do ar</h3>
+                    <p>
+                        Registros relacionados à fumaça, emissão de poluentes
+                        e outras situações que prejudicam a qualidade do ar.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <div class="icon">🌊</div>
+                    <h3>Poluição dos rios</h3>
+                    <p>
+                        Ocorrências envolvendo descarte irregular de resíduos
+                        e contaminação de rios e outros recursos hídricos.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <div class="icon">🌳</div>
+                    <h3>Desmatamento</h3>
+                    <p>
+                        Registros de retirada irregular da vegetação e destruição
+                        de áreas naturais.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <div class="icon">🔥</div>
+                    <h3>Queimadas</h3>
+                    <p>
+                        Ocorrências de incêndios e queimadas que possam causar
+                        danos à vegetação, aos animais e à população.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <div class="icon">⛏️</div>
+                    <h3>Garimpo ilegal</h3>
+                    <p>
+                        Informações sobre possíveis atividades de extração mineral
+                        irregular e seus impactos ambientais.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <div class="icon">🗑️</div>
+                    <h3>Descarte irregular</h3>
+                    <p>
+                        Registros de lixo e resíduos descartados em locais inadequados,
+                        como ruas, terrenos e áreas naturais.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <section>
+            <h2>Como a plataforma funciona?</h2>
+
+            <ul class="steps">
+                <li>
+                    <strong>1. Registre uma ocorrência:</strong>
+                    informe o tipo de problema ambiental e descreva a situação.
+                </li>
+
+                <li>
+                    <strong>2. Adicione informações:</strong>
+                    informe a localização e, se desejar, anexe uma imagem
+                    que ajude a demonstrar a ocorrência.
+                </li>
+
+                <li>
+                    <strong>3. Escolha como participar:</strong>
+                    a proposta contempla registros vinculados a uma conta
+                    ou denúncias anônimas.
+                </li>
+
+                <li>
+                    <strong>4. Acompanhe o registro:</strong>
+                    consulte as informações e o andamento das denúncias
+                    disponíveis na plataforma.
+                </li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Privacidade e segurança</h2>
+
+            <p>
+                A privacidade dos cidadãos é um aspecto importante do projeto.
+                Por isso, a proposta considera diferentes formas de realizar
+                registros, incluindo a opção anônima, além de medidas de
+                proteção das informações fornecidas pelos usuários.
+            </p>
+
+            <p>
+                Os mecanismos de autenticação, proteção de dados e criptografia
+                deverão ser implementados e testados durante o desenvolvimento
+                do sistema.
+            </p>
+        </section>
+
+        <section class="center">
+            <h2>Faça parte dessa iniciativa</h2>
+
+            <p>
+                A participação da população pode ajudar a dar visibilidade
+                aos problemas ambientais e fortalecer a conscientização coletiva.
+            </p>
+
+            <a href="nova_denuncia.html" class="button">
+                Registrar ocorrência
+            </a>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>EcoDenúncia — Tecnologia e conscientização a favor do meio ambiente.</p>
+        <p>Projeto acadêmico de Sistemas de Informação.</p>
+    </footer>
+
+</body>
+</html>

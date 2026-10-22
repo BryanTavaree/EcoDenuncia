@@ -1,0 +1,247 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrar - EcoDenúncia</title>
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f2f6f1;
+            color: #333;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #164b35;
+            color: white;
+            text-align: center;
+            padding: 25px 15px;
+        }
+
+        header h1 { margin: 0 0 8px; font-size: 28px; }
+        header p { margin: 0; font-size: 15px; }
+
+        main {
+            width: 90%;
+            max-width: 440px;
+            margin: 45px auto;
+            padding: 32px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        h2 {
+            color: #164b35;
+            text-align: center;
+            margin: 0 0 12px;
+            font-size: 25px;
+        }
+
+        .descricao {
+            color: #666;
+            text-align: center;
+            line-height: 1.5;
+            margin-bottom: 28px;
+        }
+
+        label {
+            display: block;
+            margin: 18px 0 8px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #247a43;
+            box-shadow: 0 0 0 2px rgba(36, 122, 67, 0.12);
+        }
+
+        a {
+            color: #247a43;
+            text-decoration: none;
+        }
+
+        a:hover { text-decoration: underline; }
+
+        .esqueci-senha {
+            display: block;
+            text-align: right;
+            margin-top: 12px;
+            font-size: 14px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 14px;
+            background: #247a43;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover { background: #195d31; }
+
+        .mensagem {
+            text-align: center;
+            margin-top: 16px;
+            font-size: 14px;
+            color: #b3261e;
+        }
+
+        .cadastro {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 15px;
+        }
+
+        .voltar {
+            display: block;
+            text-align: center;
+            margin-top: 22px;
+            font-size: 14px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 13px;
+        }
+
+        @media (max-width: 480px) {
+            main {
+                margin: 28px auto;
+                padding: 25px 20px;
+            }
+
+            h2 { font-size: 23px; }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>🌿 EcoDenúncia</h1>
+        <p>Juntos por um meio ambiente melhor.</p>
+    </header>
+
+    <main>
+        <h2>Bem-vindo de volta!</h2>
+
+        <p class="descricao">
+            Entre na sua conta para continuar e acompanhar suas denúncias ambientais.
+        </p>
+
+        <form id="formLogin">
+            <label for="email">E-mail</label>
+            <input
+                type="email"
+                id="email"
+                placeholder="Digite seu e-mail"
+                autocomplete="email"
+                required
+            >
+
+            <label for="senha">Senha</label>
+            <input
+                type="password"
+                id="senha"
+                placeholder="Digite sua senha"
+                autocomplete="current-password"
+                required
+            >
+
+            <a class="esqueci-senha" href="esqueceu_senha.html">
+                Esqueci minha senha
+            </a>
+
+            <button type="submit">Entrar</button>
+            <p id="mensagem" class="mensagem"></p>
+        </form>
+
+        <div class="cadastro">
+            Não tem uma conta?
+            <a href="cadastro.html">Criar minha conta</a>
+        </div>
+
+        <a class="voltar" href="index.html">← Voltar ao início</a>
+    </main>
+
+    <footer>
+        EcoDenúncia © 2026 — Protegendo o meio ambiente.
+    </footer>
+
+    <script>
+        document.getElementById("formLogin").addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            const email = document.getElementById("email").value.trim();
+            const senha = document.getElementById("senha").value;
+            const mensagem = document.getElementById("mensagem");
+            const botao = this.querySelector('button[type="submit"]');
+
+            if (!email || !senha) {
+                mensagem.style.color = "#b3261e";
+                mensagem.textContent = "Preencha todos os campos.";
+                return;
+            }
+
+            botao.disabled = true;
+            botao.textContent = "Entrando...";
+            mensagem.style.color = "#666";
+            mensagem.textContent = "";
+
+            try {
+                const resposta = await fetch("/api/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email, senha })
+                });
+                const dados = await resposta.json();
+
+                if (!resposta.ok) {
+                    mensagem.style.color = "#b3261e";
+                    mensagem.textContent = dados.erro || "Não foi possível entrar.";
+                    return;
+                }
+
+                mensagem.style.color = "#247a43";
+                mensagem.textContent = "Login realizado com sucesso!";
+
+                const parametros = new URLSearchParams(window.location.search);
+                const destino = parametros.get("destino");
+                if (destino === "confirmar_denuncia.html?modo=conta") {
+                    window.location.href = "/confirmar_denuncia.html?modo=conta";
+                } else {
+                    window.location.href = "/perfil.html";
+                }
+            } catch (erro) {
+                mensagem.style.color = "#b3261e";
+                mensagem.textContent = "Não foi possível conectar ao servidor. Confira se o Flask está rodando.";
+            } finally {
+                botao.disabled = false;
+                botao.textContent = "Entrar";
+            }
+        });
+    </script>
+</body>
+</html>

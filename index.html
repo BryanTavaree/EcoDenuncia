@@ -1,0 +1,157 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#06251d">
+  <title>EcoDenúncia | Proteja o meio ambiente</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html#inicio" aria-label="EcoDenúncia - início">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" role="img">
+          <path d="M24 43C9 34 7 18 20 5c2 9 1 14-3 20 6-3 11-10 12-18 11 11 13 24 1 34-2 1-4 2-6 2Z"/>
+          <path d="M23 40c-2-9-1-16 5-23M22 31c-5-1-9-4-11-8M27 34c5-1 9-4 11-8"/>
+        </svg>
+      </span>
+      <span class="brand-copy">
+        <strong>EcoDenúncia</strong>
+        <small>Juntos por um meio ambiente melhor</small>
+      </span>
+    </a>
+
+    <button class="menu-toggle" id="menuToggle"
+      aria-label="Abrir menu" aria-expanded="false">☰</button>
+
+    <nav class="nav" id="mainNav">
+      <a class="active" href="index.html#inicio">Início</a>
+      <a href="sobre.html">Sobre</a>
+      <a href="nova_denuncia.html">Denúncias</a>
+      <a href="informacoes.html">Informações</a>
+      <a href="minhas_denuncias.html">Minhas denúncias</a>
+      <a href="perfil.html">Meu perfil</a>
+      <a class="nav-login" href="login.html">Entrar</a>
+      <a class="button button-small" href="cadastro.html">Cadastrar</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="inicio">
+      <div class="hero-content">
+        <p class="eyebrow">Cuidar do meio ambiente começa com a gente</p>
+        <h1>Sua atitude<br>faz a <span>diferença!</span></h1>
+        <p class="hero-text">
+          Denuncie crimes ambientais de forma segura, rápida e, se preferir,
+          anônima. Ajude a proteger nossos recursos naturais.
+        </p>
+
+        <div class="hero-actions">
+          <a class="button" href="nova_denuncia.html">Fazer uma denúncia</a>
+          <a class="button button-outline" href="mapa.html">
+            Ver mapa de ocorrências
+          </a>
+        </div>
+      </div>
+      <div class="hero-shade"></div>
+    </section>
+
+    <section class="category-strip" id="categorias" aria-label="Tipos de ocorrência">
+      <a class="category" href="nova_denuncia.html">
+        <span class="category-icon">☁</span>
+        <span>Poluição do ar</span>
+      </a>
+      <a class="category" href="nova_denuncia.html">
+        <span class="category-icon">♨</span>
+        <span>Poluição dos rios</span>
+      </a>
+      <a class="category" href="nova_denuncia.html">
+        <span class="category-icon">♣</span>
+        <span>Desmatamento</span>
+      </a>
+      <a class="category" href="nova_denuncia.html">
+        <span class="category-icon">♨</span>
+        <span>Queimadas</span>
+      </a>
+      <a class="category" href="nova_denuncia.html">
+        <span class="category-icon">⚒</span>
+        <span>Garimpo ilegal</span>
+      </a>
+    </section>
+
+    <section class="info-grid" id="sobre">
+      <article class="info-card">
+        <span class="info-number">01</span>
+        <h2>Viu algo errado?</h2>
+        <p>
+          Registre uma ocorrência ambiental e ajude a dar visibilidade
+          a situações que precisam de atenção.
+        </p>
+        <a href="nova_denuncia.html">
+          Como denunciar <span aria-hidden="true">→</span>
+        </a>
+      </article>
+
+      <article class="info-card" id="informacoes">
+        <span class="info-number">02</span>
+        <h2>Informação importa</h2>
+        <p>
+          Conheça problemas como poluição, desmatamento, queimadas
+          e garimpo ilegal.
+        </p>
+        <a href="informacoes.html">
+          Conhecer ocorrências <span aria-hidden="true">→</span>
+        </a>
+      </article>
+
+      <article class="info-card">
+        <span class="info-number">03</span>
+        <h2>Acompanhe o mapa</h2>
+        <p>
+          Consulte a área de ocorrências ambientais. O mapa será conectado
+          aos dados do sistema nas próximas etapas.
+        </p>
+        <a href="mapa.html">
+          Ver ocorrências <span aria-hidden="true">→</span>
+        </a>
+      </article>
+    </section>
+
+    <section class="report-banner" id="denunciar">
+      <div>
+        <p class="eyebrow">Sua participação faz diferença</p>
+        <h2>Ajude a proteger o que é de todos.</h2>
+        <p>
+          Você poderá enviar uma descrição, adicionar fotos e escolher
+          se deseja se identificar.
+        </p>
+      </div>
+      <a class="button" href="nova_denuncia.html">
+        Começar denúncia <span aria-hidden="true">→</span>
+      </a>
+    </section>
+
+    <section class="simple-access" id="acesso">
+      <div>
+        <strong>Área do cidadão</strong>
+        <span>Acesse seu perfil ou acompanhe suas denúncias.</span>
+      </div>
+
+      <a class="button button-dark" href="login.html">Entrar</a>
+      <a class="text-link" href="perfil.html">Meu perfil</a>
+      <a class="text-link" href="minhas_denuncias.html">Minhas denúncias</a>
+      <a class="text-link" href="cadastro.html">Criar cadastro</a>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <a class="footer-brand" href="index.html#inicio">🌿 EcoDenúncia</a>
+    <span>Juntos por um meio ambiente melhor.</span>
+    <span>Projeto acadêmico • Protótipo inicial</span>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

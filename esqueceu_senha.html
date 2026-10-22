@@ -1,0 +1,396 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperar senha - EcoDenúncia</title>
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f2f6f1;
+            color: #333;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #164b35;
+            color: white;
+            text-align: center;
+            padding: 25px 15px;
+        }
+
+        header h1 { margin: 0 0 8px; font-size: 28px; }
+        header p { margin: 0; font-size: 15px; }
+
+        main {
+            width: 90%;
+            max-width: 440px;
+            margin: 45px auto;
+            padding: 32px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .icone {
+            text-align: center;
+            font-size: 42px;
+            margin-bottom: 12px;
+        }
+
+        h2 {
+            color: #164b35;
+            text-align: center;
+            margin: 0 0 14px;
+            font-size: 25px;
+        }
+
+        .descricao {
+            color: #666;
+            text-align: center;
+            line-height: 1.6;
+            margin-bottom: 28px;
+        }
+
+        label {
+            display: block;
+            margin: 18px 0 8px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #247a43;
+            box-shadow: 0 0 0 2px rgba(36, 122, 67, 0.12);
+        }
+
+        button {
+            width: 100%;
+            margin-top: 24px;
+            padding: 14px;
+            background: #247a43;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover { background: #195d31; }
+
+        button:disabled {
+            opacity: 0.65;
+            cursor: wait;
+        }
+
+        .mensagem {
+            display: none;
+            padding: 13px;
+            margin-top: 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.5;
+            text-align: center;
+            overflow-wrap: anywhere;
+        }
+
+        .sucesso {
+            display: block;
+            background: #e7f5e9;
+            color: #195d31;
+        }
+
+        .erro {
+            display: block;
+            background: #fdeaea;
+            color: #a12626;
+        }
+
+        .aviso {
+            display: block;
+            background: #fff4d8;
+            color: #785600;
+        }
+
+        .oculto { display: none; }
+
+        .voltar {
+            display: block;
+            text-align: center;
+            margin-top: 25px;
+            color: #247a43;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .voltar:hover { text-decoration: underline; }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 13px;
+        }
+
+        @media (max-width: 480px) {
+            main {
+                margin: 28px auto;
+                padding: 25px 20px;
+            }
+
+            h2 { font-size: 23px; }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>🌿 EcoDenúncia</h1>
+        <p>Juntos por um meio ambiente melhor.</p>
+    </header>
+
+    <main>
+        <div class="icone">🔐</div>
+
+        <h2 id="titulo">Esqueceu sua senha?</h2>
+
+        <p class="descricao" id="descricao">
+            Informe o e-mail cadastrado para iniciar a recuperação da sua senha.
+        </p>
+
+        <form id="formRecuperacao">
+            <label for="email">E-mail cadastrado</label>
+            <input
+                type="email"
+                id="email"
+                placeholder="Digite seu e-mail"
+                autocomplete="email"
+                required
+            >
+
+            <button type="submit" id="botaoRecuperar">
+                Recuperar senha
+            </button>
+        </form>
+
+        <form id="formRedefinicao" class="oculto">
+            <label for="token">Código de recuperação</label>
+            <input
+                type="text"
+                id="token"
+                autocomplete="off"
+                placeholder="Cole o código recebido"
+                required
+            >
+
+            <label for="novaSenha">Nova senha</label>
+            <input
+                type="password"
+                id="novaSenha"
+                minlength="8"
+                autocomplete="new-password"
+                placeholder="Mínimo de 8 caracteres"
+                required
+            >
+
+            <label for="confirmarSenha">Confirmar nova senha</label>
+            <input
+                type="password"
+                id="confirmarSenha"
+                minlength="8"
+                autocomplete="new-password"
+                placeholder="Digite a senha novamente"
+                required
+            >
+
+            <button type="submit" id="botaoRedefinir">
+                Salvar nova senha
+            </button>
+        </form>
+
+        <div id="mensagem" class="mensagem" role="status"
+             aria-live="polite"></div>
+
+        <a class="voltar" href="login.html">
+            ← Voltar para o login
+        </a>
+    </main>
+
+    <footer>
+        EcoDenúncia © 2026 — Protegendo o meio ambiente.
+    </footer>
+
+    <script>
+        const formRecuperacao = document.getElementById("formRecuperacao");
+        const formRedefinicao = document.getElementById("formRedefinicao");
+        const mensagem = document.getElementById("mensagem");
+
+        function mostrarMensagem(texto, tipo = "sucesso") {
+            mensagem.textContent = texto;
+            mensagem.className = "mensagem " + tipo;
+        }
+
+        function limparMensagem() {
+            mensagem.textContent = "";
+            mensagem.className = "mensagem";
+        }
+
+        async function enviarJSON(url, dados) {
+            const resposta = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(dados)
+            });
+
+            let resultado;
+
+            try {
+                resultado = await resposta.json();
+            } catch {
+                throw new Error("O servidor retornou uma resposta inválida.");
+            }
+
+            if (!resposta.ok) {
+                throw new Error(
+                    resultado.erro || resultado.mensagem ||
+                    "Não foi possível concluir a operação."
+                );
+            }
+
+            return resultado;
+        }
+
+        formRecuperacao.addEventListener("submit", async function(event) {
+            event.preventDefault();
+            limparMensagem();
+
+            const email = document.getElementById("email").value.trim();
+            const botao = document.getElementById("botaoRecuperar");
+
+            botao.disabled = true;
+            botao.textContent = "Processando...";
+
+            try {
+                const resultado = await enviarJSON(
+                    "/api/recuperar-senha",
+                    { email: email }
+                );
+
+                formRecuperacao.classList.add("oculto");
+                formRedefinicao.classList.remove("oculto");
+
+                document.getElementById("titulo").textContent =
+                    "Criar nova senha";
+
+                document.getElementById("descricao").textContent =
+                    "Informe o código de recuperação e escolha sua nova senha.";
+
+                if (resultado.token_desenvolvimento) {
+                    document.getElementById("token").value =
+                        resultado.token_desenvolvimento;
+
+                    mostrarMensagem(
+                        "Modo de desenvolvimento: código de teste gerado. " +
+                        "Ele foi preenchido no campo abaixo. O código expira " +
+                        "em 15 minutos e só pode ser usado uma vez.",
+                        "aviso"
+                    );
+                } else {
+                    mostrarMensagem(
+                        resultado.mensagem ||
+                        "Se o e-mail estiver cadastrado, você receberá " +
+                        "as instruções de recuperação."
+                    );
+                }
+            } catch (erro) {
+                mostrarMensagem(
+                    erro.message ||
+                    "Não foi possível conectar ao servidor. Verifique se o Flask está ligado.",
+                    "erro"
+                );
+            } finally {
+                botao.disabled = false;
+                botao.textContent = "Recuperar senha";
+            }
+        });
+
+        formRedefinicao.addEventListener("submit", async function(event) {
+            event.preventDefault();
+            limparMensagem();
+
+            const token = document.getElementById("token").value.trim();
+            const senha = document.getElementById("novaSenha").value;
+            const confirmar = document.getElementById("confirmarSenha").value;
+            const botao = document.getElementById("botaoRedefinir");
+
+            if (senha.length < 8) {
+                mostrarMensagem(
+                    "A nova senha precisa ter pelo menos 8 caracteres.",
+                    "erro"
+                );
+                return;
+            }
+
+            if (senha !== confirmar) {
+                mostrarMensagem("As senhas não coincidem.", "erro");
+                return;
+            }
+
+            botao.disabled = true;
+            botao.textContent = "Salvando...";
+
+            try {
+                const resultado = await enviarJSON(
+                    "/api/redefinir-senha",
+                    {
+                        token: token,
+                        senha: senha
+                    }
+                );
+
+                formRedefinicao.classList.add("oculto");
+
+                mostrarMensagem(
+                    resultado.mensagem ||
+                    "Senha alterada com sucesso! Você já pode entrar com a nova senha."
+                );
+
+                document.getElementById("titulo").textContent =
+                    "Senha atualizada!";
+
+                document.getElementById("descricao").textContent =
+                    "Sua senha foi alterada. Entre novamente com suas credenciais.";
+
+                const link = document.querySelector(".voltar");
+                link.href = "login.html";
+                link.textContent = "Ir para o login";
+            } catch (erro) {
+                mostrarMensagem(
+                    erro.message ||
+                    "Não foi possível redefinir a senha. Confira o código e tente novamente.",
+                    "erro"
+                );
+            } finally {
+                botao.disabled = false;
+                botao.textContent = "Salvar nova senha";
+            }
+        });
+    </script>
+</body>
+</html>

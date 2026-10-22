@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Continuar denúncia | EcoDenúncia</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f4f8f4;
+            color: #26352b;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #174d32;
+            color: white;
+            padding: 18px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        nav a:hover {
+            color: #b8edc8;
+        }
+
+        main {
+            max-width: 850px;
+            margin: 45px auto;
+            padding: 0 20px;
+        }
+
+        .progress {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 35px;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #718078;
+            font-size: 14px;
+        }
+
+        .number {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: #dce5de;
+            font-weight: bold;
+        }
+
+        .step.active {
+            color: #174d32;
+            font-weight: bold;
+        }
+
+        .step.active .number {
+            color: white;
+            background: #237346;
+        }
+
+        .line {
+            width: 35px;
+            height: 2px;
+            background: #dce5de;
+        }
+
+        .intro {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .intro .icon {
+            font-size: 42px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            color: #174d32;
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+
+        .intro p {
+            color: #647168;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .option {
+            background: white;
+            border: 2px solid #e0e8e1;
+            border-radius: 14px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            transition: border-color 0.2s, transform 0.2s;
+        }
+
+        .option:hover {
+            border-color: #2e8050;
+            transform: translateY(-3px);
+        }
+
+        .option-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            background: #e6f3e9;
+            font-size: 27px;
+            margin-bottom: 18px;
+        }
+
+        .option h2 {
+            color: #174d32;
+            font-size: 21px;
+            margin-bottom: 12px;
+        }
+
+        .option p {
+            color: #657168;
+            font-size: 14px;
+            line-height: 1.7;
+            margin-bottom: 18px;
+        }
+
+        .option ul {
+            list-style: none;
+            margin-bottom: 22px;
+        }
+
+        .option li {
+            font-size: 14px;
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        .option li::before {
+            content: "✓";
+            color: #237346;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .button {
+            display: block;
+            width: 100%;
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            border-radius: 8px;
+            padding: 14px 12px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: auto;
+        }
+
+        .primary {
+            color: white;
+            background: #237346;
+        }
+
+        .primary:hover {
+            background: #174d32;
+        }
+
+        .secondary {
+            color: #174d32;
+            background: white;
+            border: 1px solid #237346;
+        }
+
+        .secondary:hover {
+            background: #edf6ef;
+        }
+
+        .privacy {
+            background: #e7f2e9;
+            border-radius: 10px;
+            padding: 18px;
+            margin-top: 25px;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .privacy-icon {
+            font-size: 23px;
+        }
+
+        .privacy p {
+            color: #3c5945;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            color: #237346;
+            text-decoration: none;
+            margin-top: 25px;
+            font-size: 14px;
+        }
+
+        .back:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px 15px;
+            color: #6b786e;
+            font-size: 13px;
+        }
+
+        @media (max-width: 650px) {
+            header {
+                padding: 18px 5%;
+            }
+
+            .options {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 27px;
+            }
+
+            .step {
+                font-size: 12px;
+                gap: 5px;
+            }
+
+            .line {
+                width: 18px;
+            }
+
+            .option {
+                padding: 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">🌱 EcoDenúncia</div>
+
+        <nav>
+            <a href="index.html">Início</a>
+            <a href="sobre.html">Sobre</a>
+            <a href="nova_denuncia.html">Denúncias</a>
+            <a href="informacoes.html">Informações</a>
+            <a href="mapa.html">Mapa</a>
+        </nav>
+    </header>
+
+    <main>
+
+        <div class="progress">
+            <div class="step">
+                <span class="number">1</span>
+                <span>Ocorrência</span>
+            </div>
+
+            <div class="line"></div>
+
+            <div class="step active">
+                <span class="number">2</span>
+                <span>Identificação</span>
+            </div>
+
+            <div class="line"></div>
+
+            <div class="step">
+                <span class="number">3</span>
+                <span>Confirmação</span>
+            </div>
+        </div>
+
+        <div class="intro">
+            <div class="icon">🛡️</div>
+
+            <h1>Como deseja continuar?</h1>
+
+            <p>
+                Sua ocorrência está quase pronta. Agora, escolha como deseja
+                prosseguir com sua denúncia.
+            </p>
+        </div>
+
+        <div class="options">
+
+            <section class="option">
+                <div class="option-icon">🕵️</div>
+
+                <h2>Denúncia anônima</h2>
+
+                <p>
+                    Registre a ocorrência sem vinculá-la à sua conta pessoal.
+                    Essa opção é indicada para quem deseja preservar sua identidade.
+                </p>
+
+                <ul>
+                    <li>Não exige entrar em uma conta.</li>
+                    <li>A denúncia não deve exibir sua identidade.</li>
+                    <li>Você poderá receber um protocolo para consulta, conforme
+                        as funcionalidades implementadas no sistema.</li>
+                </ul>
+
+                <button
+                    class="button primary"
+                    type="button"
+                    onclick="selecionarModo('anonima')">
+                    Continuar anonimamente
+                </button>
+            </section>
+
+            <section class="option">
+                <div class="option-icon">👤</div>
+
+                <h2>Usar minha conta</h2>
+
+                <p>
+                    Continue utilizando sua conta EcoDenúncia para vincular
+                    o registro ao seu perfil.
+                </p>
+
+                <ul>
+                    <li>Denúncia vinculada à sua conta.</li>
+                    <li>Facilidade para consultar seus registros.</li>
+                    <li>Acompanhamento pelo perfil, quando disponível.</li>
+                </ul>
+
+                <button
+                    class="button secondary"
+                    type="button"
+                    onclick="selecionarModo('conta')">
+                    Continuar com minha conta
+                </button>
+            </section>
+
+        </div>
+
+        <div class="privacy">
+            <div class="privacy-icon">🔒</div>
+
+            <p>
+                <strong>Sua privacidade importa.</strong><br>
+                A escolha de uma modalidade de denúncia não substitui as
+                medidas técnicas de segurança. O sistema deverá proteger
+                os dados e respeitar a opção selecionada.
+            </p>
+        </div>
+
+        <a class="back" href="nova_denuncia.html">
+            ← Voltar para a denúncia
+        </a>
+
+    </main>
+
+    <footer>
+        EcoDenúncia — Tecnologia a favor do meio ambiente.
+    </footer>
+
+    <script>
+        function selecionarModo(modo) {
+            sessionStorage.setItem("modoDenuncia", modo);
+
+            if (modo === "anonima") {
+                window.location.href = "confirmar_denuncia.html?modo=anonima";
+                return;
+            }
+
+            window.location.href = "login.html?destino=confirmar_denuncia.html%3Fmodo%3Dconta";
+        }
+    </script>
+
+</body>
+</html>

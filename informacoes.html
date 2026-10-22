@@ -1,0 +1,412 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Informações sobre problemas ambientais e como ajudar a proteger o meio ambiente.">
+  <title>Informações Ambientais | EcoDenúncia</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --verde: #176b45;
+      --verde-escuro: #104b32;
+      --verde-claro: #e9f5ed;
+      --fundo: #f6f8f6;
+      --texto: #24352b;
+      --cinza: #647067;
+      --branco: #ffffff;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--fundo);
+      color: var(--texto);
+      line-height: 1.6;
+    }
+
+    header {
+      background: var(--branco);
+      padding: 18px 7%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      box-shadow: 0 2px 10px #0000000a;
+    }
+
+    .logo {
+      color: var(--verde);
+      font-size: 24px;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--texto);
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    nav a:hover,
+    nav a.ativo {
+      color: var(--verde);
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #145c3a, #278456);
+      color: white;
+      padding: 65px 7%;
+    }
+
+    .hero .etiqueta {
+      display: inline-block;
+      background: #ffffff20;
+      border: 1px solid #ffffff40;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      font-size: clamp(30px, 5vw, 46px);
+      line-height: 1.2;
+      max-width: 750px;
+      margin-bottom: 18px;
+    }
+
+    .hero p {
+      max-width: 650px;
+      color: #e5f4e9;
+      font-size: 17px;
+    }
+
+    main {
+      max-width: 1150px;
+      margin: auto;
+      padding: 45px 22px 60px;
+    }
+
+    .introducao {
+      max-width: 780px;
+      margin-bottom: 30px;
+    }
+
+    .introducao h2 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    .introducao p {
+      color: var(--cinza);
+    }
+
+    .grade {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .card {
+      background: var(--branco);
+      border: 1px solid #e2e9e3;
+      border-radius: 16px;
+      padding: 25px;
+      box-shadow: 0 5px 20px #183d2510;
+    }
+
+    .icone {
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: var(--verde-claro);
+      font-size: 25px;
+      margin-bottom: 16px;
+    }
+
+    .card h3 {
+      font-size: 21px;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      color: var(--cinza);
+      margin-bottom: 15px;
+    }
+
+    .card h4 {
+      margin: 15px 0 6px;
+      font-size: 15px;
+    }
+
+    .card ul {
+      padding-left: 20px;
+      color: var(--cinza);
+    }
+
+    .card li {
+      margin-bottom: 5px;
+    }
+
+    .aviso {
+      margin-top: 30px;
+      background: var(--verde-claro);
+      border-left: 5px solid var(--verde);
+      border-radius: 10px;
+      padding: 22px;
+    }
+
+    .aviso h3 {
+      margin-bottom: 8px;
+    }
+
+    .aviso p {
+      color: #405b49;
+    }
+
+    .acao {
+      margin-top: 35px;
+      background: var(--branco);
+      border: 1px solid #e2e9e3;
+      border-radius: 16px;
+      padding: 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .acao p {
+      color: var(--cinza);
+      margin-top: 5px;
+    }
+
+    .botao {
+      display: inline-block;
+      background: var(--verde);
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 12px 20px;
+      border-radius: 9px;
+      transition: background 0.2s;
+    }
+
+    .botao:hover {
+      background: var(--verde-escuro);
+    }
+
+    footer {
+      background: #103d2a;
+      color: #e5f4e9;
+      text-align: center;
+      padding: 25px 15px;
+      font-size: 14px;
+    }
+
+    footer p + p {
+      margin-top: 5px;
+      color: #bdd6c5;
+    }
+
+    @media (max-width: 700px) {
+      header {
+        padding: 18px 5%;
+      }
+
+      nav {
+        gap: 12px;
+      }
+
+      .hero {
+        padding: 45px 5%;
+      }
+
+      main {
+        padding: 32px 16px 45px;
+      }
+
+      .grade {
+        grid-template-columns: 1fr;
+      }
+
+      .acao {
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <a href="index.html" class="logo">🌱 EcoDenúncia</a>
+
+    <nav aria-label="Navegação principal">
+      <a href="index.html">Início</a>
+      <a href="index.html#sobre">Sobre</a>
+      <a href="nova_denuncia.html">Denúncias</a>
+      <a href="informacoes.html" class="ativo">Informações</a>
+      <a href="mapa.html">Mapa</a>
+      <a href="login.html">Entrar</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <span class="etiqueta">Educação ambiental</span>
+    <h1>Conhecimento que ajuda a proteger o meio ambiente</h1>
+    <p>
+      Entenda os principais problemas ambientais, saiba identificar
+      possíveis ocorrências e descubra como contribuir para a preservação
+      da natureza.
+    </p>
+  </section>
+
+  <main>
+    <section class="introducao">
+      <h2>Conheça os problemas ambientais</h2>
+      <p>
+        A informação é um passo importante para proteger o meio ambiente.
+        Conhecer os tipos de problemas ambientais ajuda a reconhecer
+        situações que merecem atenção e a comunicar os fatos com clareza.
+      </p>
+    </section>
+
+    <section class="grade">
+      <article class="card">
+        <div class="icone">🏭</div>
+        <h3>Poluição do ar</h3>
+        <p>
+          A presença de fumaça, gases e partículas poluentes pode prejudicar
+          a qualidade do ar e afetar a saúde das pessoas e dos animais.
+        </p>
+        <h4>O que observar?</h4>
+        <ul>
+          <li>Emissão intensa de fumaça por instalações ou atividades.</li>
+          <li>Queima irregular de resíduos.</li>
+          <li>Presença persistente de poeira ou odores fortes.</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <div class="icone">🌊</div>
+        <h3>Poluição dos rios</h3>
+        <p>
+          O descarte inadequado de resíduos e o lançamento de substâncias
+          contaminantes podem comprometer a água e a vida aquática.
+        </p>
+        <h4>O que observar?</h4>
+        <ul>
+          <li>Descarte de lixo ou resíduos em rios e córregos.</li>
+          <li>Alterações incomuns na cor ou no aspecto da água.</li>
+          <li>Lançamento de efluentes em locais inadequados.</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <div class="icone">🌳</div>
+        <h3>Desmatamento</h3>
+        <p>
+          A remoção da vegetação pode destruir habitats, reduzir a
+          biodiversidade e contribuir para a erosão do solo.
+        </p>
+        <h4>O que observar?</h4>
+        <ul>
+          <li>Corte de árvores em áreas naturais.</li>
+          <li>Remoção de vegetação em locais protegidos.</li>
+          <li>Máquinas realizando abertura de áreas suspeitas.</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <div class="icone">🔥</div>
+        <h3>Queimadas</h3>
+        <p>
+          O fogo pode destruir a vegetação, ameaçar animais, atingir
+          comunidades e gerar fumaça prejudicial à saúde.
+        </p>
+        <h4>O que observar?</h4>
+        <ul>
+          <li>Focos de incêndio em vegetação.</li>
+          <li>Fumaça intensa em áreas florestais ou terrenos.</li>
+          <li>Queima de resíduos em situações irregulares.</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <div class="icone">⛏️</div>
+        <h3>Garimpo ilegal</h3>
+        <p>
+          A extração mineral irregular pode provocar desmatamento,
+          degradação do solo e contaminação de cursos d'água.
+        </p>
+        <h4>O que observar?</h4>
+        <ul>
+          <li>Escavações suspeitas em áreas naturais.</li>
+          <li>Alterações intensas no leito ou nas margens de rios.</li>
+          <li>Atividades de extração em locais aparentemente protegidos.</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <div class="icone">🗑️</div>
+        <h3>Descarte irregular de resíduos</h3>
+        <p>
+          O lixo descartado em locais inadequados pode contaminar o solo,
+          obstruir a drenagem e atrair animais transmissores de doenças.
+        </p>
+        <h4>O que observar?</h4>
+        <ul>
+          <li>Acúmulo de lixo em terrenos ou vias públicas.</li>
+          <li>Descarte de entulho em áreas naturais.</li>
+          <li>Resíduos abandonados próximos a rios e nascentes.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="aviso">
+      <h3>⚠️ Como registrar uma ocorrência com segurança</h3>
+      <p>
+        Informe o local e descreva apenas o que você observou. Se for seguro,
+        registre fotografias sem se aproximar de situações perigosas.
+        Não confronte possíveis responsáveis nem invada propriedades.
+        Em caso de incêndio ativo ou risco imediato, procure os serviços
+        de emergência apropriados.
+      </p>
+    </section>
+
+    <section class="acao">
+      <div>
+        <h3>Identificou um possível problema ambiental?</h3>
+        <p>Registre as informações disponíveis para análise.</p>
+      </div>
+
+      <a class="botao" href="nova_denuncia.html">
+        Registrar ocorrência →
+      </a>
+    </section>
+  </main>
+
+  <footer>
+    <p><strong>EcoDenúncia</strong> — Informação e participação pela natureza.</p>
+    <p>Projeto acadêmico de Sistemas de Informação.</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,278 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova Denúncia | EcoDenúncia</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f6f1;
+            color: #20352a;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #164b35;
+            color: white;
+            padding: 22px 8%;
+        }
+
+        header h1 {
+            font-size: 25px;
+        }
+
+        header p {
+            margin-top: 5px;
+            color: #d8eadb;
+        }
+
+        main {
+            width: 90%;
+            max-width: 720px;
+            margin: 40px auto;
+        }
+
+        .voltar {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #246642;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .formulario {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px #163b2112;
+        }
+
+        .formulario h2 {
+            margin-bottom: 10px;
+            font-size: 27px;
+        }
+
+        .descricao-inicial {
+            color: #66746a;
+            line-height: 1.5;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin: 20px 0 8px;
+            font-weight: bold;
+        }
+
+        select,
+        textarea,
+        input[type="file"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd7cd;
+            border-radius: 8px;
+            font: inherit;
+            background: white;
+        }
+
+        textarea {
+            min-height: 130px;
+            resize: vertical;
+        }
+
+        .ajuda {
+            color: #6b786e;
+            font-size: 13px;
+            margin-top: 7px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 15px;
+            border: none;
+            border-radius: 9px;
+            background: #247448;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #195c36;
+        }
+
+        #mensagem {
+            margin-top: 18px;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 500px) {
+            .formulario {
+                padding: 22px 18px;
+            }
+
+            header {
+                padding: 20px 5%;
+            }
+
+            main {
+                margin-top: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>🌿 EcoDenúncia</h1>
+        <p>Juntos por um meio ambiente melhor.</p>
+    </header>
+
+    <main>
+        <a class="voltar" href="index.html">← Voltar ao início</a>
+
+        <section class="formulario">
+            <h2>Nova Denúncia</h2>
+
+            <p class="descricao-inicial">
+                Viu algum problema ambiental? Registre a ocorrência
+                e ajude a proteger a natureza.
+            </p>
+
+            <form id="formDenuncia">
+
+                <label for="tipo">Tipo de ocorrência</label>
+                <select id="tipo" required>
+                    <option value="">Selecione uma opção</option>
+                    <option>Poluição do ar</option>
+                    <option>Poluição dos rios</option>
+                    <option>Desmatamento</option>
+                    <option>Queimadas</option>
+                    <option>Garimpo ilegal</option>
+                    <option>Outro problema ambiental</option>
+                </select>
+
+                <label for="local">Local da ocorrência</label>
+                <input
+                    type="text"
+                    id="local"
+                    placeholder="Cidade, bairro ou endereço"
+                    required
+                    style="width:100%; padding:12px; border:1px solid #cbd7cd; border-radius:8px;"
+                >
+
+                <label for="descricao">Descrição da ocorrência</label>
+                <textarea
+                    id="descricao"
+                    placeholder="Conte o que aconteceu e forneça detalhes..."
+                    required
+                    maxlength="2000"
+                ></textarea>
+
+                <label for="foto">Foto ou evidência (opcional)</label>
+                <input
+                    type="file"
+                    id="foto"
+                    accept="image/*"
+                >
+
+                <p class="ajuda">
+                    Se tiver uma foto, você pode anexá-la para ajudar
+                    a documentar a ocorrência.
+                </p>
+
+                <button type="submit">Continuar denúncia</button>
+
+                <p id="mensagem" role="status"></p>
+
+            </form>
+        </section>
+    </main>
+
+    <script>
+        const formulario = document.getElementById("formDenuncia");
+        const mensagem = document.getElementById("mensagem");
+
+        formulario.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const tipo = document.getElementById("tipo").value;
+            const local = document.getElementById("local").value.trim();
+            const descricao = document.getElementById("descricao").value.trim();
+            const foto = document.getElementById("foto").files[0];
+
+            mensagem.textContent = "";
+
+            const dados = {
+                tipo: tipo,
+                local: local,
+                descricao: descricao,
+                fotoNome: foto ? foto.name : "",
+                fotoTipo: foto ? foto.type : "",
+                fotoData: ""
+            };
+
+            function salvarEContinuar() {
+                try {
+                    sessionStorage.setItem(
+                        "rascunhoDenuncia",
+                        JSON.stringify(dados)
+                    );
+
+                    window.location.href = "continuar_denuncia.html";
+                } catch (erro) {
+                    mensagem.style.color = "#b42318";
+                    mensagem.textContent =
+                        "Não foi possível guardar os dados. Tente usar uma foto menor.";
+                }
+            }
+
+            if (foto) {
+                if (!foto.type.startsWith("image/")) {
+                    mensagem.style.color = "#b42318";
+                    mensagem.textContent =
+                        "Selecione um arquivo de imagem válido.";
+                    return;
+                }
+
+                if (foto.size > 5 * 1024 * 1024) {
+                    mensagem.style.color = "#b42318";
+                    mensagem.textContent =
+                        "A foto deve ter no máximo 5 MB.";
+                    return;
+                }
+
+                const leitor = new FileReader();
+
+                leitor.onload = function() {
+                    dados.fotoData = leitor.result;
+                    salvarEContinuar();
+                };
+
+                leitor.onerror = function() {
+                    mensagem.style.color = "#b42318";
+                    mensagem.textContent =
+                        "Não foi possível carregar a foto. Tente novamente.";
+                };
+
+                leitor.readAsDataURL(foto);
+            } else {
+                salvarEContinuar();
+            }
+        });
+    </script>
+
+</body>
+</html>

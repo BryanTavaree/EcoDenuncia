@@ -1,0 +1,557 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmar denúncia | EcoDenúncia</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f6f1;
+            color: #20352a;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #164b35;
+            color: white;
+            padding: 22px 8%;
+        }
+
+        header h1 {
+            font-size: 25px;
+        }
+
+        header p {
+            margin-top: 5px;
+            color: #d8eadb;
+        }
+
+        main {
+            width: 90%;
+            max-width: 720px;
+            margin: 40px auto;
+        }
+
+        .etapa {
+            text-align: center;
+            color: #647469;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+
+        .painel {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px #163b2112;
+        }
+
+        h2 {
+            font-size: 27px;
+            margin-bottom: 10px;
+            color: #20352a;
+        }
+
+        .introducao {
+            color: #66746a;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .modo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            border-radius: 10px;
+            background: #e8f3e9;
+            margin-bottom: 25px;
+        }
+
+        .modo strong {
+            color: #195c36;
+        }
+
+        .modo p {
+            font-size: 13px;
+            color: #526b59;
+            margin-top: 4px;
+        }
+
+        .campo {
+            padding: 16px 0;
+            border-bottom: 1px solid #e6ece7;
+        }
+
+        .campo:last-of-type {
+            border-bottom: none;
+        }
+
+        .rotulo {
+            display: block;
+            font-weight: bold;
+            font-size: 13px;
+            color: #647469;
+            margin-bottom: 6px;
+        }
+
+        .valor {
+            overflow-wrap: anywhere;
+            white-space: pre-wrap;
+            line-height: 1.6;
+        }
+
+        #fotoPreview {
+            display: none;
+            max-width: 100%;
+            max-height: 320px;
+            margin-top: 12px;
+            border-radius: 10px;
+            object-fit: contain;
+        }
+
+        .aviso {
+            background: #fff5dc;
+            color: #765719;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 22px;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .botoes {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        button,
+        .botao {
+            flex: 1;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .editar {
+            background: white;
+            color: #247448;
+            border: 1px solid #247448;
+        }
+
+        .confirmar {
+            background: #247448;
+            color: white;
+            border: none;
+        }
+
+        button:hover,
+        .botao:hover {
+            filter: brightness(0.94);
+        }
+
+        button:disabled {
+            opacity: 0.65;
+            cursor: wait;
+        }
+
+        #resultado {
+            display: none;
+            margin-top: 22px;
+            padding: 18px;
+            border-radius: 10px;
+            background: #e8f3e9;
+            color: #195c36;
+            line-height: 1.6;
+            overflow-wrap: anywhere;
+        }
+
+        #erro {
+            display: none;
+            color: #a52b2b;
+            margin-top: 18px;
+            line-height: 1.5;
+        }
+
+        .botao-inicio {
+            display: block;
+            margin-top: 15px;
+        }
+
+        @media (max-width: 500px) {
+            header {
+                padding: 20px 5%;
+            }
+
+            main {
+                margin-top: 25px;
+            }
+
+            .painel {
+                padding: 22px 18px;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+
+            .botoes {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>🌿 EcoDenúncia</h1>
+    <p>Juntos por um meio ambiente melhor.</p>
+</header>
+
+<main>
+    <p class="etapa">Etapa 3 de 3 — Confirmação</p>
+
+    <section class="painel">
+        <h2>Revise sua denúncia</h2>
+
+        <p class="introducao">
+            Confira as informações abaixo antes de finalizar.
+            Se precisar, você pode voltar e corrigir os dados.
+        </p>
+
+        <div class="modo">
+            <span id="iconeModo" style="font-size:28px">🛡️</span>
+            <div>
+                <strong id="tituloModo">Denúncia anônima</strong>
+                <p id="descricaoModo">
+                    Você escolheu não vincular a denúncia à sua conta.
+                </p>
+            </div>
+        </div>
+
+        <div class="campo">
+            <span class="rotulo">Tipo de ocorrência</span>
+            <div class="valor" id="tipo">Não informado</div>
+        </div>
+
+        <div class="campo">
+            <span class="rotulo">Local da ocorrência</span>
+            <div class="valor" id="local">Não informado</div>
+        </div>
+
+        <div class="campo">
+            <span class="rotulo">Descrição</span>
+            <div class="valor" id="descricao">Não informado</div>
+        </div>
+
+        <div class="campo">
+            <span class="rotulo">Foto ou evidência</span>
+            <div class="valor" id="nomeFoto">Nenhuma foto anexada</div>
+            <img id="fotoPreview" alt="Foto anexada à denúncia">
+        </div>
+
+        <div class="aviso">
+            <strong>Importante:</strong> esta é uma aplicação acadêmica.
+            O sistema registra a denúncia no banco de dados local do
+            EcoDenúncia, mas não a envia automaticamente a um órgão público.
+        </div>
+
+        <div class="botoes" id="botoes">
+            <a href="nova_denuncia.html" class="botao editar">
+                Voltar e editar
+            </a>
+
+            <button type="button" class="confirmar" id="btnConfirmar">
+                Confirmar denúncia
+            </button>
+        </div>
+
+        <p id="erro" role="alert"></p>
+
+        <div id="resultado" role="status" aria-live="polite">
+            <strong id="tituloResultado">Denúncia registrada!</strong>
+            <p id="mensagemResultado">
+                Sua denúncia foi registrada no EcoDenúncia.
+            </p>
+            <p id="protocolo"></p>
+
+            <a href="index.html" class="botao editar botao-inicio">
+                Voltar ao início
+            </a>
+        </div>
+    </section>
+</main>
+
+<script>
+(() => {
+    "use strict";
+
+    const parametros = new URLSearchParams(window.location.search);
+
+    const modo = parametros.get("modo") ||
+        sessionStorage.getItem("modoDenuncia") ||
+        "anonima";
+
+    const erro = document.getElementById("erro");
+    const resultado = document.getElementById("resultado");
+    const botoes = document.getElementById("botoes");
+    const btnConfirmar = document.getElementById("btnConfirmar");
+
+    let enviando = false;
+    let dados = null;
+
+    function mostrarErro(mensagem) {
+        erro.textContent = mensagem;
+        erro.style.display = "block";
+    }
+
+    function limparErro() {
+        erro.textContent = "";
+        erro.style.display = "none";
+    }
+
+    function mostrarResultado(protocolo, modoRegistrado) {
+        document.getElementById("tituloResultado").textContent =
+            "Denúncia registrada com sucesso!";
+
+        document.getElementById("mensagemResultado").textContent =
+            "O EcoDenúncia salvou sua denúncia no banco de dados local.";
+
+        document.getElementById("protocolo").textContent =
+            "Protocolo: " + protocolo;
+
+        resultado.style.display = "block";
+        botoes.style.display = "none";
+        erro.style.display = "none";
+
+        resultado.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+    }
+
+    // Permite mostrar a conclusão se a página for recarregada
+    // depois de um envio confirmado pelo servidor.
+    const conclusaoSalva = sessionStorage.getItem("denunciaConcluida");
+    const rascunhoSalvo = sessionStorage.getItem("rascunhoDenuncia");
+
+    if (!rascunhoSalvo && conclusaoSalva) {
+        try {
+            const conclusao = JSON.parse(conclusaoSalva);
+
+            if (conclusao && conclusao.protocolo) {
+                mostrarResultado(
+                    conclusao.protocolo,
+                    conclusao.modo
+                );
+                return;
+            }
+        } catch (e) {
+            sessionStorage.removeItem("denunciaConcluida");
+        }
+    }
+
+    // Recupera os dados da denúncia.
+    try {
+        dados = JSON.parse(rascunhoSalvo || "null");
+    } catch (e) {
+        dados = null;
+    }
+
+    if (
+        !dados ||
+        typeof dados !== "object" ||
+        !dados.tipo ||
+        !dados.local ||
+        !dados.descricao
+    ) {
+        mostrarErro(
+            "Não encontramos uma denúncia válida. Volte à tela anterior e preencha o formulário novamente."
+        );
+
+        btnConfirmar.disabled = true;
+        return;
+    }
+
+    // Exibe os dados sem interpretar o conteúdo como HTML.
+    document.getElementById("tipo").textContent = dados.tipo;
+    document.getElementById("local").textContent = dados.local;
+    document.getElementById("descricao").textContent = dados.descricao;
+
+    if (dados.fotoData) {
+        const imagem = document.getElementById("fotoPreview");
+
+        imagem.src = dados.fotoData;
+        imagem.style.display = "block";
+
+        document.getElementById("nomeFoto").textContent =
+            dados.fotoNome || "Imagem anexada";
+    }
+
+    // Apresenta o modo selecionado.
+    if (modo === "conta") {
+        document.getElementById("iconeModo").textContent = "👤";
+
+        document.getElementById("tituloModo").textContent =
+            "Denúncia pela conta";
+
+        document.getElementById("descricaoModo").textContent =
+            "Você escolheu registrar a denúncia vinculada à sua conta.";
+    } else {
+        document.getElementById("iconeModo").textContent = "🛡️";
+
+        document.getElementById("tituloModo").textContent =
+            "Denúncia anônima";
+
+        document.getElementById("descricaoModo").textContent =
+            "Você escolheu não vincular a denúncia à sua conta.";
+    }
+
+    // Converte a foto Data URL do rascunho em um arquivo para o Flask.
+    function converterFoto(dataURL, nomeArquivo, tipoFoto) {
+        if (!dataURL) {
+            return null;
+        }
+
+        const correspondencia = dataURL.match(
+            /^data:(image\/(?:jpeg|png|webp));base64,([A-Za-z0-9+/=\s]+)$/
+        );
+
+        if (!correspondencia) {
+            throw new Error(
+                "A imagem anexada está em um formato inválido. Volte e selecione a foto novamente."
+            );
+        }
+
+        const mime = correspondencia[1];
+        const base64 = correspondencia[2].replace(/\s/g, "");
+        const binario = atob(base64);
+        const bytes = new Uint8Array(binario.length);
+
+        for (let i = 0; i < binario.length; i++) {
+            bytes[i] = binario.charCodeAt(i);
+        }
+
+        const extensaoPorMime = {
+            "image/jpeg": ".jpg",
+            "image/png": ".png",
+            "image/webp": ".webp"
+        };
+
+        let nome = String(nomeArquivo || "").trim();
+
+        // Usa um nome seguro caso o nome original esteja ausente.
+        nome = nome.replace(/[\\/:*?"<>|]/g, "_");
+
+        const extensao = extensaoPorMime[mime];
+
+        if (!nome.toLowerCase().endsWith(extensao)) {
+            nome = "evidencia" + extensao;
+        }
+
+        return new File(
+            [bytes],
+            nome,
+            {
+                type: tipoFoto || mime
+            }
+        );
+    }
+
+    // Envia a denúncia somente quando a pessoa confirmar.
+    btnConfirmar.addEventListener("click", async function () {
+        if (enviando || !dados) {
+            return;
+        }
+
+        limparErro();
+
+        enviando = true;
+        btnConfirmar.disabled = true;
+        btnConfirmar.textContent = "Enviando denúncia...";
+
+        try {
+            const formulario = new FormData();
+
+            formulario.append("tipo", String(dados.tipo).trim());
+            formulario.append("local", String(dados.local).trim());
+            formulario.append("descricao", String(dados.descricao).trim());
+            formulario.append("modo", modo === "conta" ? "conta" : "anonima");
+
+            if (dados.fotoData) {
+                const foto = converterFoto(
+                    dados.fotoData,
+                    dados.fotoNome,
+                    dados.fotoTipo
+                );
+
+                if (foto) {
+                    formulario.append("foto", foto);
+                }
+            }
+
+            const resposta = await fetch("/api/denuncias", {
+                method: "POST",
+                body: formulario,
+                credentials: "same-origin"
+            });
+
+            const retorno = await resposta.json().catch(() => ({}));
+
+            if (!resposta.ok || !retorno.ok || !retorno.protocolo) {
+                throw new Error(
+                    retorno.erro ||
+                    "Não foi possível registrar a denúncia. Tente novamente."
+                );
+            }
+
+            // Só limpa o rascunho após confirmação positiva do servidor.
+            sessionStorage.setItem(
+                "denunciaConcluida",
+                JSON.stringify({
+                    protocolo: retorno.protocolo,
+                    modo: retorno.modo || modo
+                })
+            );
+
+            sessionStorage.removeItem("rascunhoDenuncia");
+            sessionStorage.removeItem("modoDenuncia");
+            sessionStorage.removeItem("destinoAposLogin");
+
+            mostrarResultado(
+                retorno.protocolo,
+                retorno.modo || modo
+            );
+
+        } catch (e) {
+            mostrarErro(
+                e.message ||
+                "Ocorreu um erro ao enviar a denúncia. Verifique sua conexão e tente novamente."
+            );
+
+            btnConfirmar.disabled = false;
+            btnConfirmar.textContent = "Tentar novamente";
+            enviando = false;
+        }
+    });
+})();
+</script>
+
+<script src="eco-sync.js"></script>
+</body>
+</html>

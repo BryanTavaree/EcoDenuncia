@@ -1,0 +1,734 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mapa de Ocorrências | EcoDenúncia</title>
+
+  <style>
+    :root {
+      --verde-escuro: #164b35;
+      --verde: #26734d;
+      --verde-claro: #e8f3e9;
+      --fundo: #f2f6f1;
+      --texto: #26352b;
+      --cinza: #68756c;
+      --borda: #dce5dc;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--texto);
+      background: var(--fundo);
+    }
+
+    header {
+      background: var(--verde-escuro);
+      color: white;
+      padding: 17px 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      font-size: 23px;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    .logo span {
+      color: #a9e6b8;
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    nav a:hover {
+      color: #b9eac5;
+    }
+
+    main {
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: 30px 4%;
+    }
+
+    .titulo {
+      margin-bottom: 22px;
+    }
+
+    .titulo h1 {
+      color: var(--verde-escuro);
+      font-size: 29px;
+      margin: 0 0 8px;
+    }
+
+    .titulo p {
+      color: var(--cinza);
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    .filtros {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(150px, 1fr));
+      gap: 14px;
+      padding: 20px;
+      background: white;
+      border: 1px solid var(--borda);
+      border-radius: 12px;
+      margin-bottom: 22px;
+    }
+
+    .campo label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 13px;
+      font-weight: bold;
+      color: var(--verde-escuro);
+    }
+
+    .campo input,
+    .campo select {
+      width: 100%;
+      min-width: 0;
+      padding: 11px;
+      border: 1px solid #cbd8cc;
+      border-radius: 7px;
+      background: white;
+      color: var(--texto);
+      font-size: 14px;
+    }
+
+    .conteudo {
+      display: grid;
+      grid-template-columns: minmax(0, 1.7fr) minmax(300px, 1fr);
+      gap: 22px;
+      align-items: start;
+    }
+
+    .painel {
+      min-width: 0;
+      overflow: hidden;
+      background: white;
+      border: 1px solid var(--borda);
+      border-radius: 12px;
+    }
+
+    .painel-topo {
+      padding: 17px 19px;
+      border-bottom: 1px solid var(--borda);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .painel-topo h2 {
+      margin: 0;
+      font-size: 17px;
+      color: var(--verde-escuro);
+    }
+
+    .contador {
+      font-size: 12px;
+      color: var(--cinza);
+      white-space: nowrap;
+    }
+
+    #mapa {
+      width: 100%;
+      height: 540px;
+      background: #e5e9e5;
+    }
+
+    .aviso-mapa {
+      padding: 10px 14px;
+      font-size: 12px;
+      line-height: 1.5;
+      color: var(--cinza);
+      background: white;
+      border-top: 1px solid var(--borda);
+    }
+
+    #listaOcorrencias {
+      padding: 8px 14px 14px;
+      max-height: 540px;
+      overflow-y: auto;
+    }
+
+    .ocorrencia {
+      padding: 15px 10px;
+      border-bottom: 1px solid #e8eee8;
+      cursor: pointer;
+      border-radius: 7px;
+      transition: background 0.2s;
+    }
+
+    .ocorrencia:hover,
+    .ocorrencia.selecionada {
+      background: var(--verde-claro);
+    }
+
+    .ocorrencia:last-child {
+      border-bottom: none;
+    }
+
+    .ocorrencia h3 {
+      margin: 0 0 8px;
+      font-size: 15px;
+      color: var(--verde-escuro);
+    }
+
+    .local {
+      color: var(--cinza);
+      font-size: 13px;
+      margin-bottom: 9px;
+      line-height: 1.4;
+    }
+
+    .descricao {
+      margin: 0 0 11px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .etiquetas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .etiqueta {
+      display: inline-block;
+      padding: 5px 8px;
+      border-radius: 5px;
+      background: #edf3ed;
+      color: #315d40;
+      font-size: 11px;
+      font-weight: bold;
+    }
+
+    .status {
+      background: #fff2d9;
+      color: #805b12;
+    }
+
+    .status.resolvida {
+      background: #e2f4e7;
+      color: #24633a;
+    }
+
+    .vazio {
+      padding: 25px 12px;
+      color: var(--cinza);
+      font-size: 14px;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    .erro-mapa {
+      padding: 25px;
+      text-align: center;
+      line-height: 1.6;
+      color: #8a3328;
+    }
+
+    footer {
+      text-align: center;
+      padding: 24px 15px;
+      color: var(--cinza);
+      font-size: 12px;
+    }
+
+    @media (max-width: 950px) {
+      .conteudo {
+        grid-template-columns: 1fr;
+      }
+
+      #listaOcorrencias {
+        max-height: none;
+      }
+
+      #mapa {
+        height: 430px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      header {
+        padding: 16px 5%;
+      }
+
+      nav {
+        gap: 12px;
+      }
+
+      nav a {
+        font-size: 13px;
+      }
+
+      main {
+        padding: 23px 4%;
+      }
+
+      .titulo h1 {
+        font-size: 24px;
+      }
+
+      .filtros {
+        grid-template-columns: 1fr;
+        padding: 15px;
+      }
+
+      #mapa {
+        height: 350px;
+      }
+
+      .painel-topo {
+        padding: 14px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="logo">Eco<span>Denúncia</span></div>
+
+    <nav aria-label="Navegação principal">
+      <a href="index.html">Início</a>
+      <a href="sobre.html">Sobre</a>
+      <a href="nova_denuncia.html">Denunciar</a>
+      <a href="informacoes.html">Informações</a>
+      <a href="minhas_denuncias.html">Minhas denúncias</a>
+      <a href="perfil.html">Meu perfil</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="titulo">
+      <h1>Mapa de ocorrências ambientais</h1>
+      <p>
+        Explore os locais das ocorrências ambientais e acompanhe
+        os problemas registrados na plataforma.
+      </p>
+    </section>
+
+    <section class="filtros" aria-label="Filtros de ocorrências">
+      <div class="campo">
+        <label for="filtroTipo">Tipo de ocorrência</label>
+        <select id="filtroTipo">
+          <option value="">Todos os tipos</option>
+          <option value="Poluição do ar">Poluição do ar</option>
+          <option value="Poluição da água">Poluição da água</option>
+          <option value="Desmatamento">Desmatamento</option>
+          <option value="Queimada">Queimada</option>
+          <option value="Garimpo ilegal">Garimpo ilegal</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label for="filtroStatus">Situação</label>
+        <select id="filtroStatus">
+          <option value="">Todas as situações</option>
+          <option value="Pendente">Pendente</option>
+          <option value="Em análise">Em análise</option>
+          <option value="Resolvida">Resolvida</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label for="filtroLocal">Localização</label>
+        <input
+          type="search"
+          id="filtroLocal"
+          placeholder="Digite uma cidade ou bairro"
+        >
+      </div>
+    </section>
+
+    <section class="conteudo">
+      <div class="painel">
+        <div class="painel-topo">
+          <h2>Localização no mapa</h2>
+          <span class="contador" id="contadorMapa">Carregando...</span>
+        </div>
+
+        <div id="mapa" aria-label="Mapa do Google Maps">
+          <div class="erro-mapa">
+            Carregando o Google Maps...
+          </div>
+        </div>
+
+        <div class="aviso-mapa">
+          Os marcadores atuais são apenas exemplos fictícios para
+          demonstrar o funcionamento do protótipo. Não representam
+          denúncias reais.
+        </div>
+      </div>
+
+      <div class="painel">
+        <div class="painel-topo">
+          <h2>Ocorrências registradas</h2>
+          <span class="contador" id="contadorLista">0 ocorrências</span>
+        </div>
+
+        <div id="listaOcorrencias"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    EcoDenúncia — Protótipo acadêmico de informação ambiental.
+  </footer>
+
+  <script>
+    /*
+      DADOS DE DEMONSTRAÇÃO
+
+      Substitua estes exemplos pelos dados do banco de dados
+      quando o sistema tiver um backend.
+
+      As coordenadas abaixo são fictícias e servem somente
+      para testar os marcadores e os filtros.
+    */
+
+    const ocorrencias = [
+      {
+        id: 1,
+        titulo: "Exemplo de poluição do ar",
+        tipo: "Poluição do ar",
+        local: "Centro, São Paulo - SP",
+        descricao: "Exemplo de emissão de fumaça em área urbana.",
+        status: "Pendente",
+        lat: -23.5505,
+        lng: -46.6333
+      },
+      {
+        id: 2,
+        titulo: "Exemplo de poluição da água",
+        tipo: "Poluição da água",
+        local: "Marginal Tietê, São Paulo - SP",
+        descricao: "Exemplo de possível descarte irregular em curso d'água.",
+        status: "Em análise",
+        lat: -23.5165,
+        lng: -46.6250
+      },
+      {
+        id: 3,
+        titulo: "Exemplo de desmatamento",
+        tipo: "Desmatamento",
+        local: "Zona Sul, São Paulo - SP",
+        descricao: "Exemplo de retirada de vegetação em uma área verde.",
+        status: "Pendente",
+        lat: -23.6650,
+        lng: -46.7000
+      },
+      {
+        id: 4,
+        titulo: "Exemplo de queimada",
+        tipo: "Queimada",
+        local: "Zona Leste, São Paulo - SP",
+        descricao: "Exemplo de foco de queimada próximo a uma área urbana.",
+        status: "Resolvida",
+        lat: -23.5500,
+        lng: -46.4800
+      },
+      {
+        id: 5,
+        titulo: "Exemplo de garimpo ilegal",
+        tipo: "Garimpo ilegal",
+        local: "Área de demonstração, São Paulo - SP",
+        descricao: "Exemplo ilustrativo de atividade de extração irregular.",
+        status: "Em análise",
+        lat: -23.5900,
+        lng: -46.5700
+      }
+    ];
+
+    let mapa = null;
+    let marcadores = {};
+    let janelaInfo = null;
+    let mapaCarregado = false;
+
+    const lista = document.getElementById("listaOcorrencias");
+    const filtroTipo = document.getElementById("filtroTipo");
+    const filtroStatus = document.getElementById("filtroStatus");
+    const filtroLocal = document.getElementById("filtroLocal");
+
+    function iniciarMapa() {
+      const elementoMapa = document.getElementById("mapa");
+
+      try {
+        mapa = new google.maps.Map(elementoMapa, {
+          center: { lat: -23.5505, lng: -46.6333 },
+          zoom: 11,
+          mapId: "DEMO_MAP_ID",
+          mapTypeControl: true,
+          streetViewControl: true,
+          fullscreenControl: true,
+          zoomControl: true,
+          clickableIcons: false
+        });
+
+        janelaInfo = new google.maps.InfoWindow();
+        mapaCarregado = true;
+
+        criarMarcadores();
+        atualizarLista();
+      } catch (erro) {
+        mostrarErroMapa();
+        console.error("Erro ao iniciar o mapa:", erro);
+      }
+    }
+
+    function criarMarcadores() {
+      ocorrencias.forEach(function(ocorrencia) {
+        const marcador = new google.maps.Marker({
+          position: {
+            lat: ocorrencia.lat,
+            lng: ocorrencia.lng
+          },
+          map: mapa,
+          title: ocorrencia.titulo
+        });
+
+        marcador.addListener("click", function() {
+          mostrarDetalhesNoMapa(ocorrencia, marcador);
+          destacarOcorrencia(ocorrencia.id);
+        });
+
+        marcadores[ocorrencia.id] = marcador;
+      });
+    }
+
+    function mostrarDetalhesNoMapa(ocorrencia, marcador) {
+      const conteudo = document.createElement("div");
+      conteudo.style.maxWidth = "240px";
+      conteudo.style.fontFamily = "Arial, sans-serif";
+
+      const titulo = document.createElement("strong");
+      titulo.textContent = ocorrencia.titulo;
+
+      const tipo = document.createElement("p");
+      tipo.textContent = "Tipo: " + ocorrencia.tipo;
+
+      const local = document.createElement("p");
+      local.textContent = "Local: " + ocorrencia.local;
+
+      const aviso = document.createElement("small");
+      aviso.textContent = "Ocorrência fictícia de demonstração.";
+
+      conteudo.append(titulo, tipo, local, aviso);
+
+      janelaInfo.setContent(conteudo);
+      janelaInfo.open({
+        map: mapa,
+        anchor: marcador
+      });
+    }
+
+    function obterOcorrenciasFiltradas() {
+      const tipo = filtroTipo.value;
+      const status = filtroStatus.value;
+      const local = filtroLocal.value.trim().toLocaleLowerCase("pt-BR");
+
+      return ocorrencias.filter(function(ocorrencia) {
+        const correspondeTipo =
+          !tipo || ocorrencia.tipo === tipo;
+
+        const correspondeStatus =
+          !status || ocorrencia.status === status;
+
+        const textoLocal =
+          (ocorrencia.local + " " + ocorrencia.titulo + " " +
+           ocorrencia.descricao).toLocaleLowerCase("pt-BR");
+
+        const correspondeLocal =
+          !local || textoLocal.includes(local);
+
+        return correspondeTipo && correspondeStatus && correspondeLocal;
+      });
+    }
+
+    function atualizarLista() {
+      const filtradas = obterOcorrenciasFiltradas();
+
+      lista.replaceChildren();
+
+      filtradas.forEach(function(ocorrencia) {
+        const item = document.createElement("article");
+        item.className = "ocorrencia";
+        item.tabIndex = 0;
+        item.setAttribute("role", "button");
+        item.setAttribute(
+          "aria-label",
+          "Ver no mapa: " + ocorrencia.titulo
+        );
+        item.dataset.id = ocorrencia.id;
+
+        const titulo = document.createElement("h3");
+        titulo.textContent = ocorrencia.titulo;
+
+        const local = document.createElement("div");
+        local.className = "local";
+        local.textContent = "📍 " + ocorrencia.local;
+
+        const descricao = document.createElement("p");
+        descricao.className = "descricao";
+        descricao.textContent = ocorrencia.descricao;
+
+        const etiquetas = document.createElement("div");
+        etiquetas.className = "etiquetas";
+
+        const tipo = document.createElement("span");
+        tipo.className = "etiqueta";
+        tipo.textContent = ocorrencia.tipo;
+
+        const status = document.createElement("span");
+        status.className = "etiqueta status";
+        status.textContent = ocorrencia.status;
+
+        if (ocorrencia.status === "Resolvida") {
+          status.classList.add("resolvida");
+        }
+
+        etiquetas.append(tipo, status);
+        item.append(titulo, local, descricao, etiquetas);
+
+        item.addEventListener("click", function() {
+          focarOcorrencia(ocorrencia);
+        });
+
+        item.addEventListener("keydown", function(evento) {
+          if (evento.key === "Enter" || evento.key === " ") {
+            evento.preventDefault();
+            focarOcorrencia(ocorrencia);
+          }
+        });
+
+        lista.appendChild(item);
+      });
+
+      if (filtradas.length === 0) {
+        const vazio = document.createElement("div");
+        vazio.className = "vazio";
+        vazio.textContent =
+          "Nenhuma ocorrência encontrada com esses filtros.";
+        lista.appendChild(vazio);
+      }
+
+      document.getElementById("contadorLista").textContent =
+        filtradas.length +
+        (filtradas.length === 1 ? " ocorrência" : " ocorrências");
+
+      document.getElementById("contadorMapa").textContent =
+        filtradas.length +
+        (filtradas.length === 1 ? " marcador" : " marcadores");
+
+      if (mapaCarregado) {
+        ocorrencias.forEach(function(ocorrencia) {
+          const marcador = marcadores[ocorrencia.id];
+          const visivel = filtradas.some(function(item) {
+            return item.id === ocorrencia.id;
+          });
+
+          marcador.setVisible(visivel);
+        });
+      }
+    }
+
+    function focarOcorrencia(ocorrencia) {
+      if (!mapaCarregado) return;
+
+      const marcador = marcadores[ocorrencia.id];
+
+      mapa.panTo({
+        lat: ocorrencia.lat,
+        lng: ocorrencia.lng
+      });
+
+      mapa.setZoom(15);
+      mostrarDetalhesNoMapa(ocorrencia, marcador);
+      destacarOcorrencia(ocorrencia.id);
+    }
+
+    function destacarOcorrencia(id) {
+      document.querySelectorAll(".ocorrencia").forEach(function(item) {
+        item.classList.toggle(
+          "selecionada",
+          Number(item.dataset.id) === id
+        );
+      });
+
+      const item = lista.querySelector(
+        '.ocorrencia[data-id="' + id + '"]'
+      );
+
+      if (item) {
+        item.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest"
+        });
+      }
+    }
+
+    function mostrarErroMapa() {
+      const elementoMapa = document.getElementById("mapa");
+      elementoMapa.replaceChildren();
+
+      const mensagem = document.createElement("div");
+      mensagem.className = "erro-mapa";
+      mensagem.textContent =
+        "Não foi possível carregar o Google Maps. " +
+        "Confira sua chave de API, a conexão com a internet " +
+        "e se a API Maps JavaScript está ativada.";
+
+      elementoMapa.appendChild(mensagem);
+      document.getElementById("contadorMapa").textContent =
+        "Mapa indisponível";
+    }
+
+    filtroTipo.addEventListener("change", atualizarLista);
+    filtroStatus.addEventListener("change", atualizarLista);
+    filtroLocal.addEventListener("input", atualizarLista);
+
+    // Permite que o Google informe quando a API não carrega.
+    window.gm_authFailure = function() {
+      mostrarErroMapa();
+    };
+
+    atualizarLista();
+  </script>
+
+  <!--
+    IMPORTANTE:
+    Substitua SUA_CHAVE_DE_API pela chave que você criar
+    no Google Cloud Console.
+  -->
+  <script
+    async
+    src="https://maps.googleapis.com/maps/api/js?key=SUA_CHAVE_DE_API&callback=iniciarMapa&loading=async&v=weekly"
+    onerror="document.getElementById('mapa').innerHTML='<div class=&quot;erro-mapa&quot;>Não foi possível carregar o Google Maps. Verifique sua conexão e a chave de API.</div>'"
+  ></script>
+</body>
+</html>

@@ -1,0 +1,514 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#06251d">
+  <title>Detalhes da denúncia | EcoDenúncia</title>
+
+  <style>
+    :root {
+      --dark: #06251d;
+      --green: #126b4d;
+      --background: #f4f7f5;
+      --muted: #68756f;
+      --border: #e0e8e3;
+      --white: #fff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--background);
+      color: #24352b;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 18px;
+      padding: 17px 6%;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      color: var(--dark);
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .brand-icon {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: #e1f2e8;
+      font-size: 24px;
+    }
+
+    .brand small {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 400;
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      font-size: 14px;
+    }
+
+    nav a:hover { color: var(--green); }
+
+    main {
+      width: min(1000px, 90%);
+      margin: 38px auto 60px;
+    }
+
+    .back {
+      display: inline-block;
+      margin-bottom: 24px;
+      color: var(--green);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .eyebrow {
+      margin: 0 0 9px;
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--dark);
+      font-size: clamp(28px, 4vw, 40px);
+      letter-spacing: -1px;
+    }
+
+    .intro {
+      margin: 12px 0 25px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .notice {
+      margin-bottom: 22px;
+      padding: 15px 18px;
+      border: 1px solid #e9d9a8;
+      border-radius: 11px;
+      background: #fff9e9;
+      color: #735719;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .card {
+      margin-bottom: 20px;
+      padding: 25px;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      background: var(--white);
+    }
+
+    .title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    h2 {
+      margin: 0 0 18px;
+      color: var(--dark);
+      font-size: 21px;
+    }
+
+    .category {
+      margin: 0 0 8px;
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .7px;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 8px 12px;
+      border-radius: 20px;
+      background: #fff0cb;
+      color: #8a5b00;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .status.Enviada {
+      background: #e6edf8;
+      color: #345a8c;
+    }
+
+    .status.Encaminhada {
+      background: #e0f3e8;
+      color: #17663f;
+    }
+
+    .status.Concluída {
+      background: #e6e8e7;
+      color: #46534c;
+    }
+
+    .description {
+      color: #4c5c52;
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    .metadata {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .field-label {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .field-value {
+      color: var(--dark);
+      font-size: 14px;
+      font-weight: 700;
+      overflow-wrap: anywhere;
+    }
+
+    .timeline {
+      position: relative;
+      display: grid;
+      gap: 22px;
+      margin-top: 8px;
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 22px 1fr;
+      gap: 12px;
+    }
+
+    .dot {
+      width: 13px;
+      height: 13px;
+      margin-top: 3px;
+      border: 3px solid #c9ddd0;
+      border-radius: 50%;
+      background: var(--green);
+    }
+
+    .timeline-item h3 {
+      margin: 0 0 5px;
+      color: var(--dark);
+      font-size: 14px;
+    }
+
+    .timeline-item p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .evidence-placeholder {
+      display: grid;
+      place-items: center;
+      min-height: 145px;
+      padding: 20px;
+      border: 1px dashed #cbd8cf;
+      border-radius: 12px;
+      background: #f8faf8;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    .evidence-placeholder span {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 30px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 25px;
+    }
+
+    .button {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 43px;
+      padding: 12px 17px;
+      border: 1px solid var(--green);
+      border-radius: 9px;
+      background: var(--green);
+      color: var(--white);
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .button:hover { background: #0b543b; }
+
+    .button-outline {
+      background: var(--white);
+      color: var(--green);
+    }
+
+    .button-outline:hover {
+      background: #edf4ef;
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding: 24px 6%;
+      background: var(--dark);
+      color: #d2e1d8;
+      font-size: 12px;
+    }
+
+    .footer strong {
+      color: var(--white);
+      font-size: 15px;
+    }
+
+    @media (max-width: 600px) {
+      .topbar { align-items: flex-start; flex-direction: column; }
+      nav { gap: 12px; }
+      main { margin-top: 25px; }
+      .card { padding: 19px; }
+      .metadata { grid-template-columns: 1fr; gap: 17px; }
+      .actions .button { width: 100%; }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html#inicio">
+      <span class="brand-icon">🌿</span>
+      <span>
+        EcoDenúncia
+        <small>Juntos por um meio ambiente melhor</small>
+      </span>
+    </a>
+
+    <nav aria-label="Navegação principal">
+      <a href="index.html#inicio">Início</a>
+      <a href="nova_denuncia.html">Fazer denúncia</a>
+      <a href="minhas_denuncias.html">Minhas denúncias</a>
+      <a href="mapa.html">Mapa de ocorrências</a>
+    </nav>
+  </header>
+
+  <main>
+    <a class="back" href="minhas_denuncias.html">← Voltar para minhas denúncias</a>
+
+    <p class="eyebrow">Acompanhamento</p>
+    <h1>Detalhes da denúncia</h1>
+    <p class="intro">
+      Consulte as informações do registro e veja as etapas demonstrativas
+      do andamento da ocorrência.
+    </p>
+
+    <div class="notice">
+      <strong>Protótipo acadêmico:</strong> os dados desta página são fictícios.
+      Não houve envio real a órgãos públicos e o status não representa uma
+      análise oficial.
+    </div>
+
+    <section class="card">
+      <div class="title-row">
+        <div>
+          <p class="category" id="category">Poluição do solo</p>
+          <h2 id="reportTitle">Descarte irregular de resíduos</h2>
+        </div>
+        <span class="status" id="reportStatus">Em análise</span>
+      </div>
+
+      <p class="description" id="reportDescription">
+        Exemplo de denúncia sobre resíduos descartados em local inadequado.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Informações do registro</h2>
+
+      <div class="metadata">
+        <div>
+          <span class="field-label">Número do protocolo</span>
+          <span class="field-value" id="protocol">ED-2026-001</span>
+        </div>
+
+        <div>
+          <span class="field-label">Data de registro</span>
+          <span class="field-value" id="date">10/10/2026</span>
+        </div>
+
+        <div>
+          <span class="field-label">Local da ocorrência</span>
+          <span class="field-value" id="location">Jandira, SP</span>
+        </div>
+
+        <div>
+          <span class="field-label">Tipo de ocorrência</span>
+          <span class="field-value" id="type">Poluição do solo</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Fotos e evidências</h2>
+      <div class="evidence-placeholder">
+        <div>
+          <span aria-hidden="true">📷</span>
+          Nenhuma imagem real está vinculada a este exemplo.
+          <br>
+          Nesta etapa, as evidências ainda não são armazenadas.
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Andamento da denúncia</h2>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <span class="dot"></span>
+          <div>
+            <h3>Registro criado</h3>
+            <p id="timelineDate">10/10/2026</p>
+            <p>Esta etapa representa o recebimento inicial no protótipo.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <span class="dot"></span>
+          <div>
+            <h3 id="timelineStatus">Em análise</h3>
+            <p id="timelineMessage">
+              Exemplo de situação atual. Não representa uma análise oficial.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="actions">
+      <a class="button" href="nova_denuncia.html">Fazer nova denúncia</a>
+      <a class="button button-outline" href="minhas_denuncias.html">
+        Voltar para minhas denúncias
+      </a>
+      <a class="button button-outline" href="mapa.html">Consultar mapa</a>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <strong>🌿 EcoDenúncia</strong>
+    <span>Juntos por um meio ambiente melhor.</span>
+    <span>Projeto acadêmico • Protótipo inicial</span>
+  </footer>
+
+  <script>
+    const examples = {
+      "ED-2026-001": {
+        title: "Descarte irregular de resíduos",
+        category: "Poluição do solo",
+        status: "Em análise",
+        date: "10/10/2026",
+        location: "Jandira, SP",
+        description:
+          "Exemplo de denúncia sobre resíduos descartados em local inadequado.",
+        message: "Registro demonstrativo aguardando análise."
+      },
+      "ED-2026-002": {
+        title: "Fumaça de queimada em área verde",
+        category: "Queimadas",
+        status: "Encaminhada",
+        date: "08/10/2026",
+        location: "Itapevi, SP",
+        description:
+          "Exemplo de registro de fumaça em uma área próxima à vegetação.",
+        message: "Exemplo de ocorrência encaminhada para avaliação."
+      },
+      "ED-2026-003": {
+        title: "Possível poluição de córrego",
+        category: "Poluição dos rios",
+        status: "Enviada",
+        date: "05/10/2026",
+        location: "Barueri, SP",
+        description:
+          "Exemplo de denúncia sobre alteração na aparência da água de um córrego.",
+        message: "Registro demonstrativo enviado no protótipo."
+      },
+      "ED-2026-004": {
+        title: "Desmatamento próximo a uma trilha",
+        category: "Desmatamento",
+        status: "Concluída",
+        date: "01/10/2026",
+        location: "Santana de Parnaíba, SP",
+        description:
+          "Exemplo fictício de registro de retirada de vegetação.",
+        message: "Exemplo marcado como concluído para demonstração."
+      }
+    };
+
+    const protocol = new URLSearchParams(window.location.search)
+      .get("protocolo");
+
+    const report = examples[protocol] || examples["ED-2026-001"];
+
+    document.title = report.title + " | EcoDenúncia";
+    document.getElementById("reportTitle").textContent = report.title;
+    document.getElementById("category").textContent = report.category;
+    document.getElementById("type").textContent = report.category;
+    document.getElementById("reportStatus").textContent = report.status;
+    document.getElementById("reportStatus").className =
+      "status " + report.status;
+    document.getElementById("reportDescription").textContent =
+      report.description;
+    document.getElementById("protocol").textContent =
+      protocol && examples[protocol] ? protocol : "ED-2026-001";
+    document.getElementById("date").textContent = report.date;
+    document.getElementById("timelineDate").textContent = report.date;
+    document.getElementById("location").textContent = report.location;
+    document.getElementById("timelineStatus").textContent = report.status;
+    document.getElementById("timelineMessage").textContent = report.message;
+  </script>
+  <script src="eco-sync.js"></script>
+</body>
+</html>

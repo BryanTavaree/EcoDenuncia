@@ -1,0 +1,658 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#06251d">
+  <title>Meu perfil | EcoDenúncia</title>
+
+  <style>
+    :root {
+      --dark: #06251d;
+      --green: #126b4d;
+      --background: #f4f7f5;
+      --muted: #68756f;
+      --border: #e0e8e3;
+      --white: #fff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #24352b;
+      background: var(--background);
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    input, button { font: inherit; }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 18px;
+      padding: 16px 6%;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      color: var(--dark);
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .brand-icon {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: #e1f2e8;
+      font-size: 24px;
+    }
+
+    .brand small {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 400;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 18px;
+      font-size: 14px;
+    }
+
+    nav a:hover { color: var(--green); }
+
+    main {
+      width: min(1000px, 90%);
+      margin: 36px auto 60px;
+    }
+
+    .back {
+      display: inline-block;
+      margin-bottom: 24px;
+      color: var(--green);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .eyebrow {
+      margin: 0 0 9px;
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--dark);
+      font-size: clamp(29px, 4vw, 40px);
+      letter-spacing: -1px;
+    }
+
+    .intro {
+      margin: 12px 0 27px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .demo-notice {
+      padding: 15px 18px;
+      margin-bottom: 22px;
+      border: 1px solid #e9d9a8;
+      border-radius: 11px;
+      background: #fff9e9;
+      color: #735719;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 25px;
+      margin-bottom: 22px;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      background: var(--white);
+    }
+
+    .avatar {
+      display: grid;
+      place-items: center;
+      width: 76px;
+      height: 76px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      background: #e1f2e8;
+      color: var(--green);
+      font-size: 30px;
+      font-weight: 800;
+    }
+
+    .profile-header h2 {
+      margin: 0 0 6px;
+      color: var(--dark);
+      font-size: 21px;
+    }
+
+    .profile-header p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .card {
+      padding: 25px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      background: var(--white);
+    }
+
+    .card h2 {
+      margin: 0 0 8px;
+      color: var(--dark);
+      font-size: 20px;
+    }
+
+    .card-description {
+      margin: 0 0 22px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .field.full { grid-column: 1 / -1; }
+
+    label {
+      color: #34453b;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    input {
+      width: 100%;
+      min-height: 45px;
+      padding: 12px;
+      border: 1px solid #d9e2dc;
+      border-radius: 9px;
+      background: #fff;
+      color: #24352b;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px #126b4d1a;
+    }
+
+    input:disabled {
+      background: #f0f3f1;
+      color: #68756f;
+      cursor: not-allowed;
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .button {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 43px;
+      padding: 12px 17px;
+      border: 1px solid var(--green);
+      border-radius: 9px;
+      background: var(--green);
+      color: white;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .button:hover { background: #0b543b; }
+
+    .button-outline {
+      background: white;
+      color: var(--green);
+    }
+
+    .button-outline:hover { background: #edf4ef; }
+
+    .button-danger {
+      border-color: #b42318;
+      background: white;
+      color: #b42318;
+    }
+
+    .button-danger:hover {
+      background: #fff1f0;
+    }
+
+    .card-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .setting-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      padding: 17px 0;
+      border-top: 1px solid #edf1ee;
+    }
+
+    .setting-row:first-of-type { border-top: 0; }
+
+    .setting-copy strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--dark);
+      font-size: 14px;
+    }
+
+    .setting-copy p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .toggle {
+      width: 44px;
+      height: 25px;
+      flex-shrink: 0;
+      accent-color: var(--green);
+      cursor: pointer;
+    }
+
+    .quick-links {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 13px;
+    }
+
+    .quick-link {
+      display: block;
+      padding: 17px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: #fbfcfb;
+      transition: border-color .2s, background .2s;
+    }
+
+    .quick-link:hover {
+      border-color: var(--green);
+      background: #f0f8f3;
+    }
+
+    .quick-link strong {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--dark);
+      font-size: 14px;
+    }
+
+    .quick-link span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .message {
+      display: none;
+      margin-top: 16px;
+      padding: 12px 14px;
+      border-radius: 9px;
+      background: #e1f2e8;
+      color: #17663f;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding: 24px 6%;
+      background: var(--dark);
+      color: #d2e1d8;
+      font-size: 12px;
+    }
+
+    .footer strong {
+      color: white;
+      font-size: 15px;
+    }
+
+    @media (max-width: 650px) {
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      nav { gap: 12px; }
+
+      main { margin-top: 25px; }
+
+      .profile-header, .card { padding: 19px; }
+
+      .form-grid { grid-template-columns: 1fr; }
+
+      .field.full { grid-column: auto; }
+
+      .quick-links { grid-template-columns: 1fr; }
+
+      .setting-row { align-items: flex-start; }
+
+      .card-actions .button { width: 100%; }
+
+      .footer { flex-direction: column; }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html#inicio">
+      <span class="brand-icon">🌿</span>
+      <span>
+        EcoDenúncia
+        <small>Juntos por um meio ambiente melhor</small>
+      </span>
+    </a>
+
+    <nav aria-label="Navegação principal">
+      <a href="index.html#inicio">Início</a>
+      <a href="nova_denuncia.html">Fazer denúncia</a>
+      <a href="minhas_denuncias.html">Minhas denúncias</a>
+      <a href="mapa.html">Mapa de ocorrências</a>
+    </nav>
+  </header>
+
+  <main>
+    <a class="back" href="index.html">← Voltar para o início</a>
+
+    <p class="eyebrow">Área do cidadão</p>
+    <h1>Meu perfil</h1>
+    <p class="intro">
+      Consulte seus dados, conheça as opções de privacidade e acesse
+      as principais funcionalidades do EcoDenúncia.
+    </p>
+
+    <div class="demo-notice">
+      <strong>Versão demonstrativa:</strong> os dados exibidos são exemplos.
+      As alterações ainda não são salvas em um banco de dados, e as opções
+      de conta e segurança só funcionarão de verdade após a implementação
+      do back-end.
+    </div>
+
+    <section class="profile-header">
+      <div class="avatar" id="avatar">U</div>
+      <div>
+        <h2 id="profileName">Usuário demonstrativo</h2>
+        <p id="profileEmail">usuario@exemplo.com</p>
+        <p>Conta de demonstração</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Dados pessoais</h2>
+      <p class="card-description">
+        Confira as informações básicas exibidas no seu perfil.
+      </p>
+
+      <form id="profileForm">
+        <div class="form-grid">
+          <div class="field">
+            <label for="name">Nome completo</label>
+            <input id="name" name="name" type="text"
+              value="Usuário demonstrativo" required>
+          </div>
+
+          <div class="field">
+            <label for="email">E-mail</label>
+            <input id="email" name="email" type="email"
+              value="usuario@exemplo.com" required>
+          </div>
+
+          <div class="field">
+            <label for="phone">Telefone</label>
+            <input id="phone" name="phone" type="tel"
+              placeholder="(00) 00000-0000">
+          </div>
+
+          <div class="field">
+            <label for="city">Cidade</label>
+            <input id="city" name="city" type="text"
+              placeholder="Informe sua cidade">
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <button class="button" type="submit">Atualizar visualização</button>
+          <button class="button button-outline" type="reset">Restaurar exemplo</button>
+        </div>
+
+        <div class="message" id="profileMessage" role="status"></div>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>Segurança da conta</h2>
+      <p class="card-description">
+        Opções previstas para proteger o acesso à conta.
+      </p>
+
+      <div class="setting-row">
+        <div class="setting-copy">
+          <strong>Alterar senha</strong>
+          <p>A troca real de senha será disponibilizada após a integração com o servidor.</p>
+        </div>
+        <button class="button button-outline" id="passwordButton" type="button">
+          Alterar senha
+        </button>
+      </div>
+
+      <div class="setting-row">
+        <div class="setting-copy">
+          <strong>Proteção dos dados</strong>
+          <p>O projeto prevê medidas para proteger informações pessoais e registros de denúncias.</p>
+        </div>
+        <span aria-label="Informação">🔒</span>
+      </div>
+
+      <div class="message" id="securityMessage" role="status"></div>
+    </section>
+
+    <section class="card">
+      <h2>Privacidade</h2>
+      <p class="card-description">
+        As denúncias e os dados pessoais precisam ter tratamentos adequados
+        para preservar a privacidade do cidadão.
+      </p>
+
+      <div class="setting-row">
+        <div class="setting-copy">
+          <strong>Denúncia anônima</strong>
+          <p>
+            A opção de anonimato será escolhida durante o registro da denúncia.
+            Esta configuração não altera denúncias já feitas.
+          </p>
+        </div>
+        <a class="button button-outline" href="nova_denuncia.html">Fazer denúncia</a>
+      </div>
+
+      <div class="setting-row">
+        <div class="setting-copy">
+          <strong>Preferências de comunicação</strong>
+          <p>
+            No futuro, você poderá controlar notificações sobre o andamento
+            de suas denúncias.
+          </p>
+        </div>
+        <input class="toggle" id="notifications" type="checkbox"
+          aria-label="Ativar preferência demonstrativa de notificações" checked>
+      </div>
+
+      <div class="message" id="privacyMessage" role="status"></div>
+    </section>
+
+    <section class="card">
+      <h2>Acesso rápido</h2>
+      <p class="card-description">
+        Continue utilizando as outras áreas do sistema.
+      </p>
+
+      <div class="quick-links">
+        <a class="quick-link" href="minhas_denuncias.html">
+          <strong>Minhas denúncias →</strong>
+          <span>Consulte a lista e os status dos registros demonstrativos.</span>
+        </a>
+
+        <a class="quick-link" href="nova_denuncia.html">
+          <strong>Nova denúncia →</strong>
+          <span>Abra o formulário para registrar uma ocorrência ambiental.</span>
+        </a>
+
+        <a class="quick-link" href="mapa.html">
+          <strong>Mapa de ocorrências →</strong>
+          <span>Consulte a visualização demonstrativa das ocorrências.</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Sessão</h2>
+      <p class="card-description">
+        A opção abaixo é apenas ilustrativa nesta versão do protótipo.
+      </p>
+
+      <button class="button button-danger" id="logoutButton" type="button">
+        Sair da conta
+      </button>
+
+      <div class="message" id="logoutMessage" role="status"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <strong>🌿 EcoDenúncia</strong>
+    <span>Juntos por um meio ambiente melhor.</span>
+    <span>Projeto acadêmico • Protótipo inicial</span>
+  </footer>
+
+  <script>
+    const profileForm = document.getElementById("profileForm");
+    const nameInput = document.getElementById("name");
+    const emailInput = document.getElementById("email");
+
+    const originalProfile = {
+      name: "Usuário demonstrativo",
+      email: "usuario@exemplo.com",
+      phone: "",
+      city: ""
+    };
+
+    function showMessage(id, message) {
+      const element = document.getElementById(id);
+      element.textContent = message;
+      element.style.display = "block";
+    }
+
+    function updateProfilePreview() {
+      const name = nameInput.value.trim() || "Usuário demonstrativo";
+      document.getElementById("profileName").textContent = name;
+      document.getElementById("profileEmail").textContent =
+        emailInput.value.trim() || "E-mail não informado";
+
+      const firstLetter = name.charAt(0).toUpperCase();
+      document.getElementById("avatar").textContent = firstLetter;
+    }
+
+    profileForm.addEventListener("submit", event => {
+      event.preventDefault();
+      updateProfilePreview();
+
+      showMessage(
+        "profileMessage",
+        "Visualização atualizada nesta página. Os dados não foram salvos no servidor."
+      );
+    });
+
+    profileForm.addEventListener("reset", () => {
+      setTimeout(() => {
+        document.getElementById("name").value = originalProfile.name;
+        document.getElementById("email").value = originalProfile.email;
+        document.getElementById("phone").value = originalProfile.phone;
+        document.getElementById("city").value = originalProfile.city;
+        updateProfilePreview();
+
+        document.getElementById("profileMessage").style.display = "none";
+      }, 0);
+    });
+
+    document.getElementById("passwordButton").addEventListener("click", () => {
+      showMessage(
+        "securityMessage",
+        "A alteração de senha será implementada com o sistema de autenticação do back-end."
+      );
+    });
+
+    document.getElementById("notifications").addEventListener("change", event => {
+      showMessage(
+        "privacyMessage",
+        event.target.checked
+          ? "Preferência demonstrativa ativada. Ela ainda não está salva."
+          : "Preferência demonstrativa desativada. Ela ainda não está salva."
+      );
+    });
+
+    document.getElementById("logoutButton").addEventListener("click", () => {
+      showMessage(
+        "logoutMessage",
+        "O login ainda não está conectado a uma sessão real. A opção de sair será implementada junto com a autenticação."
+      );
+    });
+  </script>
+</body>
+</html>

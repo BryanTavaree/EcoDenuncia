@@ -1,0 +1,722 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#06251d">
+  <title>Minhas Denúncias | EcoDenúncia</title>
+
+  <style>
+    :root {
+      --green: #126b4d;
+      --dark: #06251d;
+      --light: #f4f7f5;
+      --muted: #68756f;
+      --border: #e0e8e3;
+      --white: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--light);
+      color: #1d2b24;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button, input, select {
+      font: inherit;
+    }
+
+    .topbar {
+      min-height: 76px;
+      padding: 15px 6%;
+      background: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      color: var(--dark);
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .brand-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 13px;
+      display: grid;
+      place-items: center;
+      background: #e1f2e8;
+      font-size: 24px;
+    }
+
+    .brand small {
+      display: block;
+      margin-top: 4px;
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--muted);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 22px;
+      font-size: 14px;
+    }
+
+    .nav a:hover,
+    .nav a.active {
+      color: var(--green);
+    }
+
+    .page {
+      width: min(1120px, 90%);
+      margin: 42px auto 64px;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 22px;
+      color: var(--green);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .eyebrow {
+      margin: 0 0 10px;
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--dark);
+      font-size: clamp(29px, 4vw, 42px);
+      letter-spacing: -1.3px;
+    }
+
+    .intro {
+      max-width: 680px;
+      margin: 13px 0 28px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    .demo-notice {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 16px 18px;
+      margin-bottom: 25px;
+      border: 1px solid #e9d9a8;
+      border-radius: 12px;
+      background: #fff9e9;
+      color: #735719;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .demo-notice strong {
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 30px;
+    }
+
+    .stat {
+      padding: 22px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 15px;
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .stat-number {
+      display: block;
+      margin-top: 12px;
+      color: var(--dark);
+      font-size: 30px;
+      font-weight: 800;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    h2 {
+      margin: 0;
+      color: var(--dark);
+      font-size: 22px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 12px 18px;
+      border: 0;
+      border-radius: 9px;
+      background: var(--green);
+      color: var(--white);
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background .2s;
+    }
+
+    .button:hover {
+      background: #0b543b;
+    }
+
+    .button-outline {
+      border: 1px solid var(--border);
+      background: var(--white);
+      color: var(--dark);
+    }
+
+    .button-outline:hover {
+      background: #edf4ef;
+    }
+
+    .filters {
+      display: grid;
+      grid-template-columns: minmax(200px, 1.5fr) minmax(170px, 1fr);
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .filters input,
+    .filters select {
+      width: 100%;
+      min-height: 46px;
+      padding: 12px 14px;
+      border: 1px solid #d9e2dc;
+      border-radius: 9px;
+      background: var(--white);
+      color: #27372f;
+      outline: none;
+    }
+
+    .filters input:focus,
+    .filters select:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px #126b4d1a;
+    }
+
+    .report-list {
+      display: grid;
+      gap: 15px;
+    }
+
+    .report {
+      padding: 22px;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      background: var(--white);
+    }
+
+    .report-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .report-category {
+      margin: 0 0 8px;
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .6px;
+    }
+
+    .report h3 {
+      margin: 0;
+      color: var(--dark);
+      font-size: 18px;
+      line-height: 1.4;
+    }
+
+    .status {
+      flex-shrink: 0;
+      padding: 7px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .status-analysis {
+      background: #fff0cb;
+      color: #8a5b00;
+    }
+
+    .status-sent {
+      background: #e6edf8;
+      color: #345a8c;
+    }
+
+    .status-forwarded {
+      background: #e0f3e8;
+      color: #17663f;
+    }
+
+    .status-completed {
+      background: #e6e8e7;
+      color: #46534c;
+    }
+
+    .report-description {
+      margin: 13px 0 18px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .report-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 22px;
+      padding-top: 15px;
+      border-top: 1px solid #edf1ee;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .report-meta strong {
+      color: #34453b;
+    }
+
+    .report-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 17px;
+    }
+
+    .report-actions .button {
+      min-height: 37px;
+      padding: 9px 13px;
+      font-size: 12px;
+    }
+
+    .empty-state {
+      display: none;
+      padding: 38px 20px;
+      border: 1px dashed #cbd8cf;
+      border-radius: 14px;
+      background: var(--white);
+      text-align: center;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .empty-state h3 {
+      color: var(--dark);
+    }
+
+    .bottom-actions {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 32px;
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding: 25px 6%;
+      background: var(--dark);
+      color: #d2e1d8;
+      font-size: 12px;
+    }
+
+    .footer strong {
+      color: white;
+      font-size: 15px;
+    }
+
+    @media (max-width: 700px) {
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .nav {
+        gap: 13px;
+        font-size: 13px;
+      }
+
+      .page {
+        margin-top: 28px;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .stat {
+        padding: 17px;
+      }
+
+      .stat-number {
+        margin-top: 7px;
+        font-size: 25px;
+      }
+
+      .filters {
+        grid-template-columns: 1fr;
+      }
+
+      .report {
+        padding: 17px;
+      }
+
+      .report-top {
+        flex-direction: column;
+      }
+
+      .report-actions {
+        flex-wrap: wrap;
+      }
+
+      .footer {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html#inicio">
+      <span class="brand-icon">🌿</span>
+      <span>
+        EcoDenúncia
+        <small>Juntos por um meio ambiente melhor</small>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Navegação principal">
+      <a href="index.html#inicio">Início</a>
+      <a href="nova_denuncia.html">Fazer denúncia</a>
+      <a class="active" href="minhas_denuncias.html">Minhas denúncias</a>
+      <a href="mapa.html">Mapa de ocorrências</a>
+      <a href="login.html">Entrar</a>
+    </nav>
+  </header>
+
+  <main class="page">
+    <a class="back-link" href="index.html">← Voltar para o início</a>
+
+    <p class="eyebrow">Área do cidadão</p>
+    <h1>Minhas denúncias</h1>
+    <p class="intro">
+      Consulte as ocorrências registradas, confira os protocolos e acompanhe
+      o andamento de cada denúncia ambiental.
+    </p>
+
+    <aside class="demo-notice">
+      <span aria-hidden="true">ℹ️</span>
+      <div>
+        <strong>Versão demonstrativa do projeto</strong>
+        As denúncias exibidas abaixo são exemplos fictícios. Nesta etapa,
+        os dados ainda não são salvos nem vinculados a uma conta. Essa
+        integração será desenvolvida junto com o back-end.
+      </div>
+    </aside>
+
+    <section class="stats" aria-label="Resumo de denúncias">
+      <article class="stat">
+        <span class="stat-label">Total de denúncias de exemplo</span>
+        <strong class="stat-number" id="totalCount">4</strong>
+      </article>
+
+      <article class="stat">
+        <span class="stat-label">Em análise</span>
+        <strong class="stat-number" id="analysisCount">1</strong>
+      </article>
+
+      <article class="stat">
+        <span class="stat-label">Concluídas</span>
+        <strong class="stat-number" id="completedCount">1</strong>
+      </article>
+    </section>
+
+    <section aria-labelledby="reportsHeading">
+      <div class="section-heading">
+        <h2 id="reportsHeading">Denúncias registradas</h2>
+        <a class="button" href="nova_denuncia.html">＋ Nova denúncia</a>
+      </div>
+
+      <div class="filters">
+        <input
+          type="search"
+          id="searchInput"
+          placeholder="Buscar por título, local ou protocolo..."
+          aria-label="Buscar denúncias"
+        >
+
+        <select id="statusFilter" aria-label="Filtrar por status">
+          <option value="todos">Todas as situações</option>
+          <option value="Enviada">Enviada</option>
+          <option value="Em análise">Em análise</option>
+          <option value="Encaminhada">Encaminhada</option>
+          <option value="Concluída">Concluída</option>
+        </select>
+      </div>
+
+      <div class="report-list" id="reportList">
+        <article class="report"
+          data-title="Descarte irregular de resíduos"
+          data-location="Jandira São Paulo"
+          data-protocol="ED-2026-001"
+          data-status="Em análise">
+
+          <div class="report-top">
+            <div>
+              <p class="report-category">Poluição do solo</p>
+              <h3>Descarte irregular de resíduos</h3>
+            </div>
+            <span class="status status-analysis">Em análise</span>
+          </div>
+
+          <p class="report-description">
+            Exemplo de denúncia sobre resíduos descartados em local inadequado.
+          </p>
+
+          <div class="report-meta">
+            <span>📍 <strong>Jandira, SP</strong></span>
+            <span>📅 Enviada em <strong>10/10/2026</strong></span>
+            <span>Protocolo: <strong>ED-2026-001</strong></span>
+          </div>
+
+          <div class="report-actions">
+            <button class="button button-outline details-button" type="button">
+              Ver detalhes
+            </button>
+          </div>
+          <p class="details-text" hidden>
+            Situação demonstrativa: denúncia recebida e aguardando análise.
+            Este status não representa um atendimento real.
+          </p>
+        </article>
+
+        <article class="report"
+          data-title="Fumaça de queimada"
+          data-location="Itapevi São Paulo"
+          data-protocol="ED-2026-002"
+          data-status="Encaminhada">
+
+          <div class="report-top">
+            <div>
+              <p class="report-category">Queimadas</p>
+              <h3>Fumaça de queimada em área verde</h3>
+            </div>
+            <span class="status status-forwarded">Encaminhada</span>
+          </div>
+
+          <p class="report-description">
+            Exemplo de registro de fumaça em uma área próxima à vegetação.
+          </p>
+
+          <div class="report-meta">
+            <span>📍 <strong>Itapevi, SP</strong></span>
+            <span>📅 Enviada em <strong>08/10/2026</strong></span>
+            <span>Protocolo: <strong>ED-2026-002</strong></span>
+          </div>
+
+          <div class="report-actions">
+            <button class="button button-outline details-button" type="button">
+              Ver detalhes
+            </button>
+          </div>
+          <p class="details-text" hidden>
+            Situação demonstrativa: ocorrência encaminhada para avaliação.
+            Nenhum órgão foi realmente notificado.
+          </p>
+        </article>
+
+        <article class="report"
+          data-title="Possível poluição de córrego"
+          data-location="Barueri São Paulo"
+          data-protocol="ED-2026-003"
+          data-status="Enviada">
+
+          <div class="report-top">
+            <div>
+              <p class="report-category">Poluição dos rios</p>
+              <h3>Possível poluição de córrego</h3>
+            </div>
+            <span class="status status-sent">Enviada</span>
+          </div>
+
+          <p class="report-description">
+            Exemplo de denúncia sobre alteração na aparência da água de um córrego.
+          </p>
+
+          <div class="report-meta">
+            <span>📍 <strong>Barueri, SP</strong></span>
+            <span>📅 Enviada em <strong>05/10/2026</strong></span>
+            <span>Protocolo: <strong>ED-2026-003</strong></span>
+          </div>
+
+          <div class="report-actions">
+            <button class="button button-outline details-button" type="button">
+              Ver detalhes
+            </button>
+          </div>
+          <p class="details-text" hidden>
+            Situação demonstrativa: registro enviado no protótipo.
+            Não há envio real para autoridades.
+          </p>
+        </article>
+
+        <article class="report"
+          data-title="Desmatamento próximo a uma trilha"
+          data-location="Santana de Parnaíba São Paulo"
+          data-protocol="ED-2026-004"
+          data-status="Concluída">
+
+          <div class="report-top">
+            <div>
+              <p class="report-category">Desmatamento</p>
+              <h3>Desmatamento próximo a uma trilha</h3>
+            </div>
+            <span class="status status-completed">Concluída</span>
+          </div>
+
+          <p class="report-description">
+            Exemplo fictício de registro de retirada de vegetação.
+          </p>
+
+          <div class="report-meta">
+            <span>📍 <strong>Santana de Parnaíba, SP</strong></span>
+            <span>📅 Enviada em <strong>01/10/2026</strong></span>
+            <span>Protocolo: <strong>ED-2026-004</strong></span>
+          </div>
+
+          <div class="report-actions">
+            <button class="button button-outline details-button" type="button">
+              Ver detalhes
+            </button>
+          </div>
+          <p class="details-text" hidden>
+            Situação demonstrativa: exemplo marcado como concluído.
+            Não representa uma ocorrência real verificada.
+          </p>
+        </article>
+      </div>
+
+      <div class="empty-state" id="emptyState">
+        <h3>Nenhuma denúncia encontrada</h3>
+        <p>Tente mudar o termo de pesquisa ou selecionar outra situação.</p>
+      </div>
+    </section>
+
+    <div class="bottom-actions">
+      <a class="button" href="nova_denuncia.html">Fazer uma denúncia</a>
+      <a class="button button-outline" href="mapa.html">Consultar mapa</a>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <strong>🌿 EcoDenúncia</strong>
+    <span>Juntos por um meio ambiente melhor.</span>
+    <span>Projeto acadêmico • Protótipo inicial</span>
+  </footer>
+
+  <script>
+    const reports = Array.from(document.querySelectorAll(".report"));
+    const searchInput = document.getElementById("searchInput");
+    const statusFilter = document.getElementById("statusFilter");
+    const emptyState = document.getElementById("emptyState");
+
+    function updateReports() {
+      const search = searchInput.value.trim().toLowerCase();
+      const status = statusFilter.value;
+      let visible = 0;
+
+      reports.forEach(report => {
+        const searchableText = [
+          report.dataset.title,
+          report.dataset.location,
+          report.dataset.protocol,
+          report.querySelector(".report-category").textContent
+        ].join(" ").toLowerCase();
+
+        const matchesSearch = searchableText.includes(search);
+        const matchesStatus =
+          status === "todos" || report.dataset.status === status;
+
+        const show = matchesSearch && matchesStatus;
+        report.hidden = !show;
+
+        if (show) visible++;
+      });
+
+      emptyState.style.display = visible === 0 ? "block" : "none";
+    }
+
+    searchInput.addEventListener("input", updateReports);
+    statusFilter.addEventListener("change", updateReports);
+
+    document.querySelectorAll(".details-button").forEach(button => {
+      button.addEventListener("click", () => {
+        const details = button.closest(".report").querySelector(".details-text");
+        details.hidden = !details.hidden;
+        button.textContent = details.hidden ? "Ver detalhes" : "Ocultar detalhes";
+      });
+    });
+
+    document.getElementById("totalCount").textContent = reports.length;
+    document.getElementById("analysisCount").textContent =
+      reports.filter(report => report.dataset.status === "Em análise").length;
+    document.getElementById("completedCount").textContent =
+      reports.filter(report => report.dataset.status === "Concluída").length;
+  </script>
+</body>
+</html>

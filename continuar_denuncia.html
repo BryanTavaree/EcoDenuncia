@@ -1,0 +1,352 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Continuar denúncia | EcoDenúncia</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f6f1;
+            color: #20352a;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #164b35;
+            color: white;
+            padding: 22px 8%;
+        }
+
+        header h1 {
+            font-size: 25px;
+        }
+
+        header p {
+            margin-top: 5px;
+            color: #d8eadb;
+        }
+
+        main {
+            width: 90%;
+            max-width: 850px;
+            margin: 40px auto;
+        }
+
+        .voltar {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #246642;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .painel {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px #163b2112;
+        }
+
+        h2 {
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
+
+        .introducao {
+            color: #66746a;
+            line-height: 1.6;
+            margin-bottom: 28px;
+        }
+
+        .opcoes {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .opcao {
+            border: 1px solid #d7e2d9;
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .icone {
+            font-size: 35px;
+            margin-bottom: 15px;
+        }
+
+        .opcao h3 {
+            color: #195c36;
+            font-size: 21px;
+            margin-bottom: 12px;
+        }
+
+        .opcao p {
+            color: #66746a;
+            font-size: 14px;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .botao {
+            display: block;
+            width: 100%;
+            margin-top: auto;
+            padding: 14px 12px;
+            border: none;
+            border-radius: 8px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .principal {
+            background: #247448;
+            color: white;
+        }
+
+        .principal:hover {
+            background: #195c36;
+        }
+
+        .secundario {
+            background: white;
+            color: #247448;
+            border: 1px solid #247448;
+        }
+
+        .secundario:hover {
+            background: #edf6ef;
+        }
+
+        .botao:disabled {
+            opacity: 0.65;
+            cursor: wait;
+        }
+
+        .aviso {
+            background: #e8f3e9;
+            padding: 17px;
+            border-radius: 8px;
+            margin-top: 24px;
+            color: #365b40;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        @media (max-width: 650px) {
+            header {
+                padding: 20px 5%;
+            }
+
+            main {
+                margin-top: 25px;
+            }
+
+            .painel {
+                padding: 22px 18px;
+            }
+
+            .opcoes {
+                grid-template-columns: 1fr;
+            }
+
+            h2 {
+                font-size: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>🌿 EcoDenúncia</h1>
+    <p>Juntos por um meio ambiente melhor.</p>
+</header>
+
+<main>
+    <a href="nova_denuncia.html" class="voltar">
+        ← Voltar à denúncia
+    </a>
+
+    <section class="painel">
+        <h2>Como deseja continuar?</h2>
+
+        <p class="introducao">
+            Sua ocorrência foi preenchida. Escolha como deseja prosseguir
+            para revisar as informações e concluir o registro.
+        </p>
+
+        <div class="opcoes">
+
+            <article class="opcao">
+                <div class="icone">🛡️</div>
+
+                <h3>Denúncia anônima</h3>
+
+                <p>
+                    Continue sem vincular a denúncia à sua conta pessoal.
+                    Você poderá revisar os dados antes de confirmar.
+                </p>
+
+                <button
+                    type="button"
+                    class="botao principal"
+                    id="btnAnonima">
+                    Continuar anonimamente
+                </button>
+            </article>
+
+            <article class="opcao">
+                <div class="icone">👤</div>
+
+                <h3>Usar minha conta</h3>
+
+                <p>
+                    Entre na sua conta para seguir com a denúncia vinculada
+                    ao seu perfil e facilitar a consulta dos registros.
+                </p>
+
+                <button
+                    type="button"
+                    class="botao secundario"
+                    id="btnConta">
+                    Continuar com minha conta
+                </button>
+            </article>
+
+        </div>
+
+        <div class="aviso">
+            <strong>Privacidade:</strong> a opção anônima solicita que a
+            denúncia não seja vinculada à identidade do denunciante.
+            A garantia efetiva depende também do tratamento feito pelo
+            servidor e das informações registradas pelo sistema.
+        </div>
+    </section>
+</main>
+
+<script>
+(() => {
+    "use strict";
+
+    const btnAnonima = document.getElementById("btnAnonima");
+    const btnConta = document.getElementById("btnConta");
+
+    // Verifica se existe um rascunho.
+    const rascunho = sessionStorage.getItem("rascunhoDenuncia");
+
+    if (!rascunho) {
+        alert(
+            "Não encontramos uma denúncia preenchida. Você será levado de volta ao formulário."
+        );
+
+        window.location.replace("nova_denuncia.html");
+        return;
+    }
+
+    // Verifica se o rascunho contém os campos essenciais.
+    try {
+        const dados = JSON.parse(rascunho);
+
+        if (
+            !dados ||
+            typeof dados !== "object" ||
+            !dados.tipo ||
+            !dados.local ||
+            !dados.descricao
+        ) {
+            throw new Error("Dados essenciais ausentes.");
+        }
+    } catch (erro) {
+        sessionStorage.removeItem("rascunhoDenuncia");
+
+        alert(
+            "Os dados da denúncia estão incompletos ou inválidos. Preencha novamente."
+        );
+
+        window.location.replace("nova_denuncia.html");
+        return;
+    }
+
+    // Evita cliques repetidos durante a navegação.
+    let navegando = false;
+
+    function bloquearBotoes() {
+        navegando = true;
+        btnAnonima.disabled = true;
+        btnConta.disabled = true;
+        btnAnonima.textContent = "Aguarde...";
+    }
+
+    // Opção anônima: continua para a revisão sem enviar ao backend.
+    btnAnonima.addEventListener("click", function () {
+        if (navegando) return;
+
+        try {
+            sessionStorage.setItem("modoDenuncia", "anonima");
+
+            bloquearBotoes();
+
+            window.location.href =
+                "confirmar_denuncia.html?modo=anonima";
+        } catch (erro) {
+            navegando = false;
+            btnAnonima.disabled = false;
+            btnConta.disabled = false;
+            btnAnonima.textContent = "Continuar anonimamente";
+
+            alert(
+                "Não foi possível guardar sua escolha. Tente novamente."
+            );
+        }
+    });
+
+    // Opção com conta: direciona ao login antes da confirmação.
+    btnConta.addEventListener("click", function () {
+        if (navegando) return;
+
+        try {
+            sessionStorage.setItem("modoDenuncia", "conta");
+
+            const destino =
+                "confirmar_denuncia.html?modo=conta";
+
+            sessionStorage.setItem("destinoAposLogin", destino);
+
+            bloquearBotoes();
+            btnConta.textContent = "Indo para o login...";
+
+            window.location.href =
+                "login.html?destino=" +
+                encodeURIComponent(destino);
+        } catch (erro) {
+            navegando = false;
+            btnAnonima.disabled = false;
+            btnConta.disabled = false;
+            btnConta.textContent = "Continuar com minha conta";
+
+            alert(
+                "Não foi possível continuar. Tente novamente."
+            );
+        }
+    });
+})();
+</script>
+
+</body>
+</html>
