@@ -1,8 +1,18 @@
+pip install -r requirements.txt
+pip freeze > requirements.txt
+
 import os
 import sqlite3
 import secrets
 import hashlib
 import time
+import base64
+import io
+from Crypto.Cipher import AES
+from Crypto.Protocol.KDF import PBKDF2
+from Crypto.Hash import SHA256
+from Crypto.Util.Padding import pad, unpad
+from flask import send_file
 from datetime import datetime, timezone
 from pathlib import Path
 from functools import wraps
@@ -102,7 +112,39 @@ def login_required_json(fn):
             return jsonify({"erro": "Faça login para acessar este recurso."}), 401
         return fn(*args, **kwargs)
     return wrapper
+IV_LEN = 16
+BLOCK_LEN = 16
+FILE_SALT = b'meu_salt_aleatorio_para_o_app'  # mesmo salt do script Colab
 
+
+def derivar_chave_arquivo(senha: str) -> bytes:
+    return PBKDF2(senha, FILE_SALT, dkLen=16, count=600000, hmac_hash_module=SHA256)
+
+
+def criptografar_arquivo(conteudo: bytes, senha: str) -> bytes:
+    """Devolve IV + ciphertext, no mesmo formato do script do Colab."""
+    iv = os.urandom(IV_LEN)
+    dados_b64 = base64.b64encode(conteudo)
+    dados_padded = pad(dados_b64, BLOCK_LEN)
+    cipher = AES.new(derivar_chave_arquivo(senha), AES.MODE_CBC, iv)
+    return iv + cipher.encrypt(dados_padded)
+
+
+def descriptografar_arquivo(conteudo_cifrado: bytes, senha: str) -> bytes:
+    if len(conteudo_cifrado) <= IV_LEN:
+        raise ValueError("Arquivo criptografado inválido ou muito curto.")
+    iv = conteudo_cifrado[:IV_LEN]
+    enc_data = conteudo_cifrado[IV_LEN:]
+    cipher = AES.new(derivar_chave_arquivo(senha), AES.MODE_CBC, iv)
+    try:
+        dec_padded = cipher.decrypt(enc_data)
+        dec_b64 = unpad(dec_padded, BLOCK_LEN)
+    except (ValueError, KeyError) as exc:
+        raise ValueError("Senha incorreta ou arquivo corrompido.") from exc
+    try:
+        return base64.b64decode(dec_b64)
+    except Exception as exc:
+        raise ValueError("Conteúdo descriptografado não é Base64 válido.") from exc
 
 @app.get("/")
 def home():
@@ -301,6 +343,54 @@ def api_me():
     user = current_user()
     return jsonify({"autenticado": bool(user), "usuario": user})
 
+@app.post("/api/criptografar")
+def api_criptografar():
+    arquivo = request.files.get("arquivo")
+    senha = request.form.get("senha", "").strip()
+    if not arquivo or not arquivo.filename:
+        return jsonify({"erro": "Envie um arquivo para criptografar."}), 400
+    if not senha:
+        return jsonify({"erro": "Informe a senha de criptografia."}), 400
+    conteudo = arquivo.read()
+    if len(conteudo) > 5 * 1024 * 1024:
+        return jsonify({"erro": "O arquivo excede o limite de 5 MB."}), 413
+    try:
+        cifrado = criptografar_arquivo(conteudo, senha)
+    except Exception:
+        app.logger.exception("Falha ao criptografar arquivo.")
+        return jsonify({"erro": "Não foi possível criptografar o arquivo."}), 500
+    nome = arquivo.filename
+    nome_saida = nome if nome.startswith("enc_") else f"enc_{nome}"
+    return send_file(io.BytesIO(cifrado), as_attachment=True,
+                     download_name=nome_saida,
+                     mimetype="application/octet-stream")
+
+
+@app.post("/api/descriptografar")
+def api_descriptografar():
+    arquivo = request.files.get("arquivo")
+    senha = request.form.get("senha", "").strip()
+    if not arquivo or not arquivo.filename:
+        return jsonify({"erro": "Envie o arquivo .enc."}), 400
+    if not senha:
+        return jsonify({"erro": "Informe a senha usada na criptografia."}), 400
+    conteudo = arquivo.read()
+    if len(conteudo) > 5 * 1024 * 1024:
+        return jsonify({"erro": "O arquivo excede o limite de 5 MB."}), 413
+    try:
+        original = descriptografar_arquivo(conteudo, senha)
+    except ValueError as exc:
+        return jsonify({"erro": str(exc)}), 400
+    except Exception:
+        app.logger.exception("Falha ao descriptografar arquivo.")
+        return jsonify({"erro": "Não foi possível descriptografar o arquivo."}), 500
+    nome = arquivo.filename
+    if nome.startswith("enc_"):
+        nome = nome[4:]
+    nome_saida = nome if nome.startswith("dec_") else f"dec_{nome}"
+    return send_file(io.BytesIO(original), as_attachment=True,
+                     download_name=nome_saida,
+                     mimetype="application/octet-stream")
 
 @app.post("/api/denuncias")
 def api_criar_denuncia():
